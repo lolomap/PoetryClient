@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PoetryApp.Views.PlayBotPage"
+             xmlns:vm="clr-namespace:PoetryApp.ViewModels"
+             Title="{Binding Title}">
+    <ContentPage.BindingContext>
+        <vm:PlayBotViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Label VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="Страница игры"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
