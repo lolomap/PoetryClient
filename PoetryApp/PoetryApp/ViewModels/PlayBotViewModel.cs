@@ -11,11 +11,24 @@ namespace PoetryApp.ViewModels
 {
     public class PlayBotViewModel : BaseViewModel
     {
+        public string SendMessageInputText { set; get; }
+        public ObservableCollection<Message> Messages { get; }
+
         public PlayBotViewModel()
         {
             Title = "Игра с ботом";
+            Messages = new ObservableCollection<Message>();
+            SendMessageCommand = new Command(OnSendMessage);
 
+            Messages.Add(new Message("Поэт", "Приветствую, игрок!"));
         }
 
+        public ICommand SendMessageCommand { get; }
+
+        private void OnSendMessage(object obj)
+        {
+            Messages.Add(new Message("Игрок", SendMessageInputText, true));
+            //SendMessageInputText = "";
+        }
     }
 }

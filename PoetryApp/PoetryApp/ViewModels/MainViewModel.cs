@@ -16,11 +16,9 @@ namespace PoetryApp.ViewModels
             Title = "Стихоплёт";
 
             PlayBotStartCommand = new Command(OnPlayBotStart);
-            //OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://aka.ms/xamarin-quickstart"));
         }
 
         public ICommand PlayBotStartCommand { get; }
-        //public ICommand OpenWebCommand { get; }
 
         private async void OnPlayBotStart(object obj)
         {
