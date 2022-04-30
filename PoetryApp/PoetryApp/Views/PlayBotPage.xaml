@@ -9,33 +9,35 @@
 		<vm:PlayBotViewModel />
 	</ContentPage.BindingContext>
 
-    <ContentPage.Content>
-        <StackLayout>
-            <CollectionView x:Name="MessagesList"
+	<ContentPage.Content>
+		<StackLayout>
+			<CollectionView x:Name="MessagesList"
 				ItemsSource="{Binding Messages}"
 				SelectionMode="None">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Padding="10" x:DataType="model:Message">
-                            <Label Text="{Binding FromName}" 
-							LineBreakMode="NoWrap"  
-							FontSize="16" />
-                            <Label Text="{Binding Text}" 
-							LineBreakMode="NoWrap"
-							FontSize="13" />
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+				<CollectionView.ItemTemplate>
+					<DataTemplate>
+						<StackLayout Padding="10" x:DataType="model:Message">
+							<Label Text="{Binding FromName}"  HorizontalOptions="{Binding HorizontalOptions}"
+								LineBreakMode="NoWrap"  
+								FontSize="16" />
+							<Label Text="{Binding Text}"  HorizontalOptions="{Binding HorizontalOptions}"
+								LineBreakMode="NoWrap"
+								FontSize="13" />
+							<Label Text="{Binding ScoreText}" HorizontalOptions="{Binding HorizontalOptions}"
+								   LineBreakMode="NoWrap" FontSize="13" TextColor="Coral"/>
+						</StackLayout>
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
+			</CollectionView>
 
-            <StackLayout Orientation="Horizontal">
-                <Entry
-                    HorizontalOptions="FillAndExpand"
-                    Text="{Binding SendMessageInputText}"
-                    ReturnCommand="{Binding SendMessageCommand, Mode=TwoWay}"/>
-                <Button Text=">" Command="{Binding SendMessageCommand}"/>
-            </StackLayout>
-            
-        </StackLayout>
-    </ContentPage.Content>
+			<StackLayout Orientation="Horizontal">
+				<Entry
+					HorizontalOptions="FillAndExpand"
+					Text="{Binding SendMessageInputText}"
+					ReturnCommand="{Binding SendMessageCommand, Mode=TwoWay}"/>
+				<Button Text=">" Command="{Binding SendMessageCommand}"/>
+			</StackLayout>
+			
+		</StackLayout>
+	</ContentPage.Content>
 </ContentPage>
