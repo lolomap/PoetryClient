@@ -24,7 +24,7 @@ namespace PoetryApp.ViewModels
 
 			analyzer = new PoemAnalyzer();
 
-			Messages.Add(new Message("Поэт", "Приветствую, игрок!"));
+			Messages.Add(new Message("Поэт", "ПривЕтствую"));
 		}
 
 		public ICommand SendMessageCommand { get; }
@@ -33,7 +33,9 @@ namespace PoetryApp.ViewModels
 		{
 			Message m = new Message("Игрок", SendMessageInputText, true);
 			Messages.Add(m);
-			//m.Score = PoemAnalyzer.CalculateRhyme(m.Text, Messages[-2].Text, PoemAnalyzer.RhymeMode.LastWord);
+			var m1 = analyzer.Simplificate(m.Text).Split(' ');
+			var m2 = analyzer.Simplificate(Messages[Messages.Count - 2].Text).Split(' ');
+			m.Score = analyzer.ScoreRhyme(m1[m1.Length - 1], m2[m2.Length - 1]);
 			//SendMessageInputText = "";
 		}
 	}
