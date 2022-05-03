@@ -33,8 +33,8 @@ namespace PoetryApp.ViewModels
 		{
 			Message m = new Message("Игрок", SendMessageInputText, true);
 			Messages.Add(m);
-			var m1 = analyzer.Simplificate(m.Text).Split(' ');
-			var m2 = analyzer.Simplificate(Messages[Messages.Count - 2].Text).Split(' ');
+			var m1 = SendMessageInputText.Split(' ');
+			var m2 = Messages[Messages.Count - 2].Text.Split(' ');
 			m.Score = analyzer.ScoreRhyme(m1[m1.Length - 1], m2[m2.Length - 1]);
 			//SendMessageInputText = "";
 		}

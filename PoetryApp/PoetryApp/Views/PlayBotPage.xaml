@@ -13,7 +13,8 @@
 		<StackLayout>
 			<CollectionView x:Name="MessagesList"
 				ItemsSource="{Binding Messages}"
-				SelectionMode="None">
+				SelectionMode="None"
+				VerticalScrollBarVisibility="Always">
 				<CollectionView.ItemTemplate>
 					<DataTemplate>
 						<StackLayout Padding="10" x:DataType="model:Message">

@@ -28,16 +28,6 @@ namespace PoetryApp.Models
 			Complex
 		}
 
-		public enum SpeechPart
-		{
-			Noun,
-			Verb,
-			Adverb,
-			Gerund,
-			Participle,
-			Adjective
-		}
-
 
 		public string word1, word2;
 		public List<Type> types = new List<Type>();
@@ -46,7 +36,7 @@ namespace PoetryApp.Models
 
 		public char baseCons1 = (char)0, baseCons2 = (char)0;
 		public string stressedPart1 = "", stressedPart2 = "";
-		public SpeechPart part1 = SpeechPart.Noun, part2 = SpeechPart.Noun;
+		public WordAnalyzer.SpeechPart speechPart1, speechPart2;
 
 		public RhymePair(string a, string b)
 		{
@@ -84,6 +74,8 @@ namespace PoetryApp.Models
 			{ "сч", 'щ' },
 		};
 
+		WordAnalyzer wanalyzer = new WordAnalyzer();
+
 
 		public void FootByPoem(string poem)
 		{
@@ -119,15 +111,12 @@ namespace PoetryApp.Models
 					a += replace[check];
 					i++;
 				}
+				else if (i == text.Length - 2)
+					a += "" + text[i] + text[i + 1];
 				else a += text[i];
 			}
 
 			return a;
-		}
-
-		public void RecognizeSpeechPart()
-		{
-
 		}
 
 		public Tuple<int, int> RecognizeStress(string word)
@@ -196,6 +185,13 @@ namespace PoetryApp.Models
 
 			Tuple<int, int> stress1 = RecognizeStress(word1);
 			Tuple<int, int> stress2 = RecognizeStress(word2);
+
+			pair.speechPart1 = wanalyzer.GetSpeechPart(word1);
+			pair.speechPart2 = wanalyzer.GetSpeechPart(word2);
+
+			word1 = Simplificate(word1);
+			word2 = Simplificate(word2);
+
 			if (stress1.Item1 == stress2.Item1)
 			{
 				pair.stressPosition = stress1.Item1;
@@ -219,21 +215,24 @@ namespace PoetryApp.Models
 
 				if (VowelsEquality(word1[stress1.Item2], word2[stress2.Item2]))
 				{
-					score += 0.5;
 					if (!pair.types.Contains(RhymePair.Type.Rich) && !pair.types.Contains(RhymePair.Type.Poor))
-					{
 						score -= 1;
-					}
 					if (pair.types.Contains(RhymePair.Type.Rich))
-					{
 						score += 1;
-					}
+					if (pair.types.Contains(RhymePair.Type.Poor))
+						score += 0.5;
+					if (pair.speechPart1 != pair.speechPart2)
+						score += 1;
+					if (pair.speechPart1 == pair.speechPart2 && pair.speechPart1 == WordAnalyzer.SpeechPart.Verb)
+						score -= 1;
 				}
 				else
+				{
 					return -1.5;
+				}
 			}
 			else
-				return -2;
+				return -5;
 
 			return score;
 		}
