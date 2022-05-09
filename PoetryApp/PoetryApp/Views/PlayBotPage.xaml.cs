@@ -16,5 +16,6 @@ namespace PoetryApp.Views
         {
             InitializeComponent();
         }
-    }
+
+	}
 }

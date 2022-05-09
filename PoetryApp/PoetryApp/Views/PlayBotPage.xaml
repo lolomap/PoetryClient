@@ -24,7 +24,7 @@
 							<Label Text="{Binding Text}"  HorizontalOptions="{Binding HorizontalOptions}"
 								LineBreakMode="NoWrap"
 								FontSize="13" />
-							<Label Text="{Binding ScoreText}" HorizontalOptions="{Binding HorizontalOptions}"
+							<Label x:Name="MessageScoreText" Text="{Binding ScoreText}" HorizontalOptions="{Binding HorizontalOptions}"
 								   LineBreakMode="NoWrap" FontSize="13" TextColor="Coral"/>
 						</StackLayout>
 					</DataTemplate>

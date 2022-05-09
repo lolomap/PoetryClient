@@ -9,7 +9,7 @@ namespace PoetryApp.Models
 {
 	public class DictionaryAPIManager
 	{
-		public static string url = "https://localhost:5001/";
+		public static string url = "https://poetry-api-l.herokuapp.com/";
 
 		public static async Task<string> SearchWordInDictionary(string word)
 		{

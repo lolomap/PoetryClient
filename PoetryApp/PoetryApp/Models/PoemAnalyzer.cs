@@ -207,7 +207,7 @@ namespace PoetryApp.Models
 			}
 		}
 
-		public double ScoreRhyme(string word1, string word2)
+		public async Task<double> ScoreRhyme(string word1, string word2)
 		{
 			//https://works.doklad.ru/view/uj7fSRE4QfU.html
 			RhymePair pair = new RhymePair();
@@ -215,8 +215,8 @@ namespace PoetryApp.Models
 
 			word1 = word1.ToLower(); word2 = word2.ToLower();
 
-			Word w1 = new Word(Task.Run(() => DictionaryAPIManager.SearchWordInDictionary(YoToYe(word1))).Result);
-			Word w2 = new Word(Task.Run(() => DictionaryAPIManager.SearchWordInDictionary(YoToYe(word2))).Result);
+			Word w1 = new Word(await DictionaryAPIManager.SearchWordInDictionary(YoToYe(word1)));
+			Word w2 = new Word(await DictionaryAPIManager.SearchWordInDictionary(YoToYe(word2)));
 
 			if (!w1.SuccessParse || !w2.SuccessParse)
 				return -100;
@@ -241,10 +241,13 @@ namespace PoetryApp.Models
 
 				pair.word1 = word1; pair.word2 = word2;
 
-				if (consonants_strong.Contains(word1[stressPos1 - 1]) || consonants_soft.Contains(word1[stressPos1 - 1]))
-					pair.baseCons1 = word1[stressPos1 - 1];
-				if (consonants_strong.Contains(word2[stressPos2 - 1]) || consonants_soft.Contains(word2[stressPos2 - 1]))
-					pair.baseCons2 = word2[stressPos2 - 1];
+				if (stressPos1 > 0 && stressPos2 > 0)
+				{
+					if (consonants_strong.Contains(word1[stressPos1 - 1]) || consonants_soft.Contains(word1[stressPos1 - 1]))
+						pair.baseCons1 = word1[stressPos1 - 1];
+					if (consonants_strong.Contains(word2[stressPos2 - 1]) || consonants_soft.Contains(word2[stressPos2 - 1]))
+						pair.baseCons2 = word2[stressPos2 - 1];
+				}
 
 				if (stressPos1 < word1.Length && stressPos2 < word2.Length)
 				{

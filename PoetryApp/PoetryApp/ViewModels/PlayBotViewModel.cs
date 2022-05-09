@@ -21,7 +21,7 @@ namespace PoetryApp.ViewModels
 			Title = "Игра с ботом";
 			Messages = new ObservableCollection<Message>();
 			//SendMessageCommand = new Command(async () => await OnSendMessage());
-			SendMessageCommand = new Command(OnSendMessage);
+			SendMessageCommand = new Command(async () => await OnSendMessage());
 
 			analyzer = new PoemAnalyzer();
 
@@ -30,13 +30,13 @@ namespace PoetryApp.ViewModels
 
 		public ICommand SendMessageCommand { get; }
 
-		private void OnSendMessage()
+		private async Task OnSendMessage()
 		{
 			Message m = new Message("Игрок", SendMessageInputText, true);
 			Messages.Add(m);
 			var m1 = SendMessageInputText.Split(' ');
 			var m2 = Messages[Messages.Count - 2].Text.Split(' ');
-			m.Score = analyzer.ScoreRhyme(m1[m1.Length - 1], m2[m2.Length - 1]);
+			m.Score = await analyzer.ScoreRhyme(m1[m1.Length - 1], m2[m2.Length - 1]);
 			//SendMessageInputText = "";
 		}
 
