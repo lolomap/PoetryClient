@@ -22,6 +22,14 @@ namespace PoetryApp.Models
 			Verb,
 			Noun,
 			Participle,
+			Pronoun,
+			Adverb,
+			Preposition,
+			Conjuction,
+			Particle,
+			Interjection,
+			Numerable,
+			Gerund
 		}
 
 
@@ -178,12 +186,9 @@ namespace PoetryApp.Models
 					offset++;
 					if (i == pos)
 						return offset;
-					}
 				}
-			return -1;
 			}
-
-			return new Tuple<int, int>(0, 0);
+			return -1;
 		}
 
 		public void AssignRhymeTypes(RhymePair pair)
@@ -210,15 +215,86 @@ namespace PoetryApp.Models
 			{
 				pair.types.Add(RhymePair.Type.Rich);
 			}
-			else if (pair.stressedPart1 == pair.stressedPart2 && pair.stressedPart1 != "")
+			if (pair.stressedPart1 == pair.stressedPart2 && pair.stressedPart1 != "")
 			{
 				pair.types.Add(RhymePair.Type.Poor);
 			}
 		}
 
+		bool IsVerbishRhyme(RhymePair pair)
+		{
+			if (pair.speechPart1 == pair.speechPart2 &&
+						(pair.speechPart1 == Word.SpeechPart.Verb || pair.speechPart1 == Word.SpeechPart.Gerund))
+				return true;
+			else return false;
+		}
+
+		bool IsOnlyStressRhyme(RhymePair pair)
+		{
+			if (!pair.types.Contains(RhymePair.Type.Rich) && !pair.types.Contains(RhymePair.Type.Poor))
+				return true;
+			else return false;
+		}
+
+		bool IsRichRhyme(RhymePair pair)
+		{
+			if (pair.types.Contains(RhymePair.Type.Rich))
+				return true;
+			else return false;
+		}
+
+		bool IsDifferentSpeechPart(RhymePair pair)
+		{
+			if (pair.speechPart1 != pair.speechPart2)
+				return true;
+			else return false;
+		}
+
+		bool IsNonRhymingLemms(Word w1, Word w2, RhymePair pair)
+		{
+			if (!HasRhyme(w1.Lemm, w2.Lemm,
+					RecognizeStressSyllable(w1.Lemm, w1.StressPosition),
+					RecognizeStressSyllable(w2.Lemm, w2.StressPosition),
+					w1.StressPosition, w2.StressPosition, pair))
+				return true;
+			else return false;
+		}
+
+		bool SameEndRhyme(string word1, string word2, int stressPos1, int stressPos2, RhymePair pair)
+		{
+			if ((stressPos1 == word1.Length - 1 && pair.stressedPart2 != "")
+					|| (stressPos2 == word2.Length - 1 && pair.stressedPart1 != ""))
+				return false;
+			else return true;
+		}
+
+		bool HasRhyme(string w1, string w2, int stress1, int stress2, int stressPos1, int stressPos2, RhymePair pair)
+		{
+			if (stress1 == stress2 && VowelsEquality(w1[stressPos1], w2[stressPos2]) && SameEndRhyme(w1, w2, stressPos1, stressPos2, pair))
+				return true;
+			else return false;
+		}
+
+		void SetRhymePair(string word1, string word2, int stressPos1, int stressPos2, RhymePair pair)
+		{
+			if (stressPos1 < word1.Length && stressPos2 < word2.Length)
+			{
+				pair.stressedPart1 = word1.Substring(stressPos1 + 1);
+				pair.stressedPart2 = word2.Substring(stressPos2 + 1);
+			}
+			if (stressPos1 > 0 && stressPos2 > 0)
+			{
+				if (consonants_strong.Contains(word1[stressPos1 - 1]) || consonants_soft.Contains(word1[stressPos1 - 1]))
+					pair.baseCons1 = word1[stressPos1 - 1];
+				if (consonants_strong.Contains(word2[stressPos2 - 1]) || consonants_soft.Contains(word2[stressPos2 - 1]))
+					pair.baseCons2 = word2[stressPos2 - 1];
+			}
+			AssignRhymeTypes(pair);
+		}
+
 		public async Task<double> ScoreRhyme(string word1, string word2)
 		{
-			//https://works.doklad.ru/view/uj7fSRE4QfU.html
+			#region [Variables Init]
 			RhymePair pair = new RhymePair();
 			double score = 0;
 
@@ -241,128 +317,24 @@ namespace PoetryApp.Models
 			pair.speechPart1 = w1.speechPart;
 			pair.speechPart2 = w2.speechPart;
 
-			word1 = Simplificate(word1);
-			word2 = Simplificate(word2);
+			word1 = Simplificate(word1).ToLower();
+			word2 = Simplificate(word2).ToLower();
 
-			if (stress1 == stress2)
+			SetRhymePair(word1, word2, stressPos1, stressPos2, pair);
+			#endregion
+
+			if (HasRhyme(word1, word2, stress1, stress2, stressPos1, stressPos2, pair))
 			{
 				pair.stressPosition = stress1;
 
-				word1 = word1.ToLower(); word2 = word2.ToLower();
-				pair.word1 = word1; pair.word2 = word2;
-
-				if (stressPos1 > 0 && stressPos2 > 0)
-				{
-					if (consonants_strong.Contains(word1[stressPos1 - 1]) || consonants_soft.Contains(word1[stressPos1 - 1]))
-						pair.baseCons1 = word1[stressPos1 - 1];
-					if (consonants_strong.Contains(word2[stressPos2 - 1]) || consonants_soft.Contains(word2[stressPos2 - 1]))
-						pair.baseCons2 = word2[stressPos2 - 1];
-				}
-
-				if (stressPos1 < word1.Length && stressPos2 < word2.Length)
-				{
-					pair.stressedPart1 = word1.Substring(stressPos1 + 1);
-					pair.stressedPart2 = word2.Substring(stressPos2 + 1);
-				}
-
-
-				AssignRhymeTypes(pair);
-
-				if (VowelsEquality(word1[stressPos1], word2[stressPos2]))
-				{
-					if (!pair.types.Contains(RhymePair.Type.Rich) && !pair.types.Contains(RhymePair.Type.Poor))
-						score -= 1;
-					if (pair.types.Contains(RhymePair.Type.Rich))
-						score += 1;
-					if (pair.types.Contains(RhymePair.Type.Poor))
-						score += 0.5;
-
-					if (pair.speechPart1 != pair.speechPart2)
-						score += 1;
-					if (pair.speechPart1 == pair.speechPart2 && pair.speechPart1 == Word.SpeechPart.Verb)
-						score -= 1;
-
-				}
-				else
-				{
-					return -1.5;
-				}
+				score -= IsVerbishRhyme(pair) ? 1 : 0;
+				score -= IsOnlyStressRhyme(pair) ? 1 : 0;
+				score += (IsDifferentSpeechPart(pair) || IsNonRhymingLemms(w1, w2, pair)) ? 1 : 0;
+				score += IsRichRhyme(pair) ? 1 : 0;
 			}
-			else
-				return -5;
+			else return -2;
 
 			return score;
-		}
-
-		public double CalculateRhyme(string line1, string line2, RhymeMode mode)
-		{
-			switch (mode)
-			{
-				case RhymeMode.LastWord:
-					return 0;
-				default:
-					return 0;
-			}
-		}
-
-
-
-
-		private static bool RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-		{
-			//Return true if the server certificate is ok
-			if (sslPolicyErrors == SslPolicyErrors.None)
-				return true;
-
-			bool acceptCertificate = true;
-			string msg = "The server could not be validated for the following reason(s):\r\n";
-
-			//The server did not present a certificate
-			if ((sslPolicyErrors &
-				 SslPolicyErrors.RemoteCertificateNotAvailable) == SslPolicyErrors.RemoteCertificateNotAvailable)
-			{
-				msg = msg + "\r\n    -The server did not present a certificate.\r\n";
-				acceptCertificate = false;
-			}
-			else
-			{
-				//The certificate does not match the server name
-				if ((sslPolicyErrors &
-					 SslPolicyErrors.RemoteCertificateNameMismatch) == SslPolicyErrors.RemoteCertificateNameMismatch)
-				{
-					msg = msg + "\r\n    -The certificate name does not match the authenticated name.\r\n";
-					acceptCertificate = false;
-				}
-
-				//There is some other problem with the certificate
-				if ((sslPolicyErrors &
-					 SslPolicyErrors.RemoteCertificateChainErrors) == SslPolicyErrors.RemoteCertificateChainErrors)
-				{
-					foreach (X509ChainStatus item in chain.ChainStatus)
-					{
-						if (item.Status != X509ChainStatusFlags.RevocationStatusUnknown &&
-							item.Status != X509ChainStatusFlags.OfflineRevocation)
-							break;
-
-						if (item.Status != X509ChainStatusFlags.NoError)
-						{
-							msg = msg + "\r\n    -" + item.StatusInformation;
-							acceptCertificate = false;
-						}
-					}
-				}
-			}
-
-			//If Validation failed, present message box
-			if (acceptCertificate == false)
-			{
-				msg = msg + "\r\nDo you wish to override the security check?";
-				//          if (MessageBox.Show(msg, "Security Alert: Server could not be validated",
-				//                       MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-				acceptCertificate = true;
-			}
-
-			return acceptCertificate;
 		}
 	}
 }

@@ -41,7 +41,8 @@ namespace PoetryApp.Models
 			else
 				HorizontalOptions = LayoutOptions.Start;
 
-			Score = 0;
+			//Score = 0;
+			ScoreText = "???";
 		}
 	}
 }
