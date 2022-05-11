@@ -25,22 +25,28 @@ namespace PoetryApp.Models
 				streamWriter.Write(payload);
 			}
 
-			try
+			int i = 0;
+			while (i < 5)
 			{
-
-				using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
-				using (Stream stream = response.GetResponseStream())
-				using (StreamReader reader = new StreamReader(stream))
+				try
 				{
-					string res = await reader.ReadToEndAsync();
-					return JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(res)["replies"][2];
-				}
 
+					using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+					using (Stream stream = response.GetResponseStream())
+					using (StreamReader reader = new StreamReader(stream))
+					{
+						string res = await reader.ReadToEndAsync();
+						return JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(res)["replies"][2];
+					}
+
+				}
+				catch
+				{
+					i++;
+					continue;
+				}
 			}
-			catch
-			{
-				return "";
-			}
+			return "";
 		}
 	}
 }

@@ -20,7 +20,8 @@ namespace PoetryApp.Models
 		}
 
 
-		public string Text { get; set; }
+		public string Text { get => _text; set { _text = value; NotifyPropertyChanged("Text"); } }
+		string _text;
 		public bool isPlayer { get; set; }
 		public string FromName { get; set; }
 		public string ScoreText { get => _scoreText; set { _scoreText = value; NotifyPropertyChanged("ScoreText"); } }
@@ -29,6 +30,7 @@ namespace PoetryApp.Models
 		double score_;
 
 		public LayoutOptions HorizontalOptions { get; set; }
+		public int column { get; set; }
 
 		public Message(string from, string text, bool isplayer = false)
 		{
@@ -37,9 +39,15 @@ namespace PoetryApp.Models
 			isPlayer = isplayer;
 
 			if (isplayer)
+			{
 				HorizontalOptions = LayoutOptions.End;
+				column = 1;
+			}
 			else
+			{
 				HorizontalOptions = LayoutOptions.Start;
+				column = 0;
+			}
 
 			//Score = 0;
 			ScoreText = "???";

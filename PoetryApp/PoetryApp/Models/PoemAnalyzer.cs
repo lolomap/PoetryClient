@@ -96,11 +96,7 @@ namespace PoetryApp.Models
 
 	public class PoemAnalyzer
 	{
-		public enum RhymeMode
-		{
-			LastWord,
-		};
-
+		string alphabet = "йцукенгшщзхъфывапролджэячсмитьбюё ";
 		string vowels_strong = "уыаоэ";
 		string vowels_soft = "юияёе";
 		string vowels = "уыаоэюияёе";
@@ -116,18 +112,15 @@ namespace PoetryApp.Models
 			{ 'г', 'к' }, { 'ж', 'ш' }, { 'в', 'ф' }, { 'б', 'п' }, { 'з', 'с' }, { 'д', 'т' },
 		};
 
-		Dictionary<string, char> replace = new Dictionary<string, char>()
+		Dictionary<string, string> replace = new Dictionary<string, string>()
 		{
-			{ "тс", 'ц' },
-			{ "тч", 'ч' },
-			{ "тш", 'ш' },
-			{ "тц", 'ц' },
-			{ "тщ", 'щ' },
-			{ "сч", 'щ' },
+			{ "тс", "цц" },
+			{ "тч", "чч" },
+			{ "тш", "шш" },
+			{ "тц", "цц" },
+			{ "тщ", "щщ" },
+			{ "сч", "щщ" },
 		};
-
-		WordAnalyzer wanalyzer = new WordAnalyzer();
-
 
 		public void FootByPoem(string poem)
 		{
@@ -154,6 +147,9 @@ namespace PoetryApp.Models
 
 		public string Simplificate(string text)
 		{
+			if (text.Length == 1)
+				return text;
+
 			string a = "";
 			for (int i = 0; i < text.Length - 1; i++)
 			{
@@ -168,7 +164,27 @@ namespace PoetryApp.Models
 				else a += text[i];
 			}
 
+			StringBuilder sb = new StringBuilder(a);
+			for (int i = 0; i < sb.Length - 1; i++)
+			{
+				if (!vowels.Contains(sb[i + 1]) && strong_soft.ContainsKey(sb[i]))
+					sb[i] = strong_soft[sb[i]];
+			}
+			a = sb.ToString();
+
 			return a;
+		}
+
+		public string CleanPunctuation(string text)
+		{
+			string res = "";
+			foreach (char s in text)
+			{
+				if (alphabet.Contains(s))
+					res += s;
+			}
+
+			return res;
 		}
 
 		public string YoToYe(string text)
@@ -262,7 +278,10 @@ namespace PoetryApp.Models
 
 		bool SameEndRhyme(string word1, string word2, int stressPos1, int stressPos2, RhymePair pair)
 		{
-			if ((stressPos1 == word1.Length - 1 && pair.stressedPart2 != "")
+			if ((word1.Length == 1 && stressPos2 == word2.Length - 1)
+					|| (word2.Length == 1 && stressPos1 == word1.Length - 1))
+				return true;
+			else if ((stressPos1 == word1.Length - 1 && pair.stressedPart2 != "")
 					|| (stressPos2 == word2.Length - 1 && pair.stressedPart1 != ""))
 				return false;
 			else return true;
@@ -298,11 +317,11 @@ namespace PoetryApp.Models
 			RhymePair pair = new RhymePair();
 			double score = 0;
 
-			word1 = word1.ToLower(); word2 = word2.ToLower();
+			word1 = CleanPunctuation(word1.ToLower()); word2 = CleanPunctuation(word2.ToLower());
 
 			Word w1 = new Word(await DictionaryAPIManager.SearchWordInDictionary(YoToYe(word1)));
 			Word w2 = new Word(await DictionaryAPIManager.SearchWordInDictionary(YoToYe(word2)));
-
+			//TODO: Необходимо создать класс Stress, который бы определял и сравнивал все возможные ударения
 			if (!w1.SuccessParse || !w2.SuccessParse)
 				return -100;
 
@@ -317,16 +336,15 @@ namespace PoetryApp.Models
 			pair.speechPart1 = w1.speechPart;
 			pair.speechPart2 = w2.speechPart;
 
-			word1 = Simplificate(word1).ToLower();
-			word2 = Simplificate(word2).ToLower();
+			word1 = Simplificate(word1);
+			word2 = Simplificate(word2);
 
+			pair.stressPosition = stress1;
 			SetRhymePair(word1, word2, stressPos1, stressPos2, pair);
 			#endregion
 
 			if (HasRhyme(word1, word2, stress1, stress2, stressPos1, stressPos2, pair))
 			{
-				pair.stressPosition = stress1;
-
 				score -= IsVerbishRhyme(pair) ? 1 : 0;
 				score -= IsOnlyStressRhyme(pair) ? 1 : 0;
 				score += (IsDifferentSpeechPart(pair) || IsNonRhymingLemms(w1, w2, pair)) ? 1 : 0;
@@ -336,5 +354,7 @@ namespace PoetryApp.Models
 
 			return score;
 		}
+
+		
 	}
 }
