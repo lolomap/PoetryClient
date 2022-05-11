@@ -13,11 +13,9 @@ namespace PoetryApp.Models
 
 		public static async Task<string> SearchWordInDictionary(string word)
 		{
-			//string result = await REQUESTING
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url + "api/Dict/" + word);
 			request.Method = "GET";
 			request.ContentType = "application/json; charset=utf-8";
-			//request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
 			try
 			{

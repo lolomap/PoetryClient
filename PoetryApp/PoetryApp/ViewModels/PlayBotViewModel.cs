@@ -25,7 +25,7 @@ namespace PoetryApp.ViewModels
 
 			analyzer = new PoemAnalyzer();
 
-			Messages.Add(new Message("Поэт", "Приветствую вас"));
+			Messages.Add(new Message("Поэт", "Приветствую вас! " + Task.Run(() => GenerationAPI.GeneratePorfire("Приветствую вас")).Result));
 		}
 
 		public ICommand SendMessageCommand { get; }
