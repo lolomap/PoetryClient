@@ -11,9 +11,6 @@ namespace PoetryApp.ViewModels
 {
 	public class PlayBotViewModel : BaseViewModel
 	{
-		public int MessageHeight { set; get; } = 100;
-		public int MessageWidth { set; get; } = 100;
-
 		public string SendMessageInputText { set; get; }
 		public ObservableCollection<Message> Messages { get; }
 
@@ -29,7 +26,7 @@ namespace PoetryApp.ViewModels
 
 			analyzer = new PoemAnalyzer();
 
-			Messages.Add(new Message("Поэт", "Приветствую вас" + Task.Run(() => GenerationAPI.GeneratePorfire("Приветствую вас")).Result));
+			Messages.Add(new Message("Поэт", "" + Task.Run(() => GenerationAPI.GeneratePorfire("Белеет парус одинокий")).Result));
 		}
 
 		public ICommand SendMessageCommand { get; }
@@ -39,8 +36,8 @@ namespace PoetryApp.ViewModels
 			Message m = new Message("Игрок", SendMessageInputText, true);
 			Messages.Add(m);
 			MessagesText += m.Text + "\\n";
-			var m1 = SendMessageInputText.Split(' ');
-			var m2 = Messages[Messages.Count - 2].Text.Split(' ');
+			var m1 = SendMessageInputText.Trim().Split(' ');
+			var m2 = Messages[Messages.Count - 2].Text.Trim().Split(' ');
 			m.Score = await analyzer.ScoreRhyme(m1[m1.Length - 1], m2[m2.Length - 1]);
 
 			await BotGenMessage();

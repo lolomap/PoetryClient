@@ -11,9 +11,15 @@
     <ContentPage.Content>
         <StackLayout>
             <Button
+				BackgroundColor="#55cf0a"
+				TextColor="Black"
+				FontSize="Title"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="CenterAndExpand"
                 Text="играть с ботом"
+				CornerRadius="30"
+				WidthRequest="300"
+				HeightRequest="100"
                 Command="{Binding PlayBotStartCommand}"/>
         </StackLayout>
     </ContentPage.Content>

@@ -10,45 +10,63 @@
 	</ContentPage.BindingContext>
 
 	<ContentPage.Content>
-		<StackLayout Padding="10">
-			<CollectionView x:Name="MessagesList"
+		<StackLayout Padding="40">
+			<Grid Padding="10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<Button Grid.Column="1" Text="Подсказка" FontSize="Title" HeightRequest="100" WidthRequest="300"
+						BackgroundColor="#55cf0a" TextColor="Black" />
+
+			</Grid>
+
+
+			<Frame CornerRadius="30" BackgroundColor="LightGray">
+				<CollectionView x:Name="MessagesList"
 				ItemsSource="{Binding Messages}"
 				SelectionMode="None"
 				VerticalScrollBarVisibility="Always">
-				<CollectionView.ItemTemplate>
-					<DataTemplate>
-						<Grid x:DataType="model:Message">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="*" />
-								<ColumnDefinition Width="*" />
-							</Grid.ColumnDefinitions>
-							<Frame  Grid.Column="{Binding column}" BackgroundColor="DodgerBlue" Padding="0" CornerRadius="15">
-								<StackLayout Padding="10">
-									<Label Text="{Binding FromName}" HorizontalOptions="{Binding HorizontalOptions}"
-								LineBreakMode="NoWrap" TextColor="White"
-								FontSize="16" />
-									<Label Text="{Binding Text}"  HorizontalOptions="{Binding HorizontalOptions}"
-								LineBreakMode="NoWrap" TextColor="White"
-								FontSize="13" />
-									<Label x:Name="MessageScoreText" Text="{Binding ScoreText}" HorizontalOptions="{Binding HorizontalOptions}"
-								   LineBreakMode="NoWrap" FontSize="13" TextColor="Red"/>
-								</StackLayout>
-							</Frame>
-						</Grid>
-					</DataTemplate>
-				</CollectionView.ItemTemplate>
-			</CollectionView>
+					<CollectionView.ItemTemplate>
+						<DataTemplate>
+							<Grid x:DataType="model:Message">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+								<Frame Grid.Column="{Binding column}" BackgroundColor="#ffe500"
+									   Padding="0" CornerRadius="15" HasShadow="False">
+									<StackLayout Padding="20">
+										<Label Text="{Binding FromName}" HorizontalOptions="{Binding HorizontalOptions}"
+											LineBreakMode="NoWrap" TextColor="Black"
+											FontSize="16" />
+										<Label Text="{Binding Text}"  HorizontalOptions="{Binding HorizontalOptions}" TextColor="Black"
+											FontSize="13" />
+										<Label x:Name="MessageScoreText" Text="{Binding ScoreText}" HorizontalOptions="{Binding HorizontalOptions}"
+											LineBreakMode="NoWrap" FontSize="13" TextColor="Red"/>
+									</StackLayout>
+								</Frame>
+							</Grid>
+						</DataTemplate>
+					</CollectionView.ItemTemplate>
+				</CollectionView>
+			</Frame>
 
 			<Label Text="Пишите рифму" HorizontalOptions="Center" FontSize="Title"
-				   TextColor="Black" Padding="10"/>
+				   TextColor="Black" Padding="10" HeightRequest="100" VerticalTextAlignment="Center"/>
 
-			<StackLayout Orientation="Horizontal">
-				<Entry
+			<Frame CornerRadius="30" BackgroundColor="LightGray">
+				<StackLayout Orientation="Horizontal">
+					<Entry
 					HorizontalOptions="FillAndExpand"
 					Text="{Binding SendMessageInputText}"
 					ReturnCommand="{Binding SendMessageCommand, Mode=TwoWay}"/>
-				<Button Text=">" Command="{Binding SendMessageCommand}"/>
-			</StackLayout>
+					<Button Text=">" BackgroundColor="#55cf0a" TextColor="Black" FontSize="Title"
+							Command="{Binding SendMessageCommand}" CornerRadius="30"/>
+				</StackLayout>
+			</Frame>
 			
 		</StackLayout>
 	</ContentPage.Content>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using PoetryApp.Models;
 
 namespace PoetryApp.Views
 {
@@ -15,7 +16,7 @@ namespace PoetryApp.Views
         public PlayBotPage()
         {
             InitializeComponent();
+			MessagesList.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
         }
-
-    }
+	}
 }

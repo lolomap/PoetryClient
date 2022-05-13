@@ -12,13 +12,13 @@ namespace PoetryApp.Models
 	{
 		public static async Task<string> GeneratePorfire(string text)
 		{
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://pelevin.gpt.dobro.ai/generate/");
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://poetry.gpt.dobro.ai/generate/");
 			request.ServerCertificateValidationCallback = delegate { return true; };
 			request.Method = "POST";
 			request.UserAgent = "Chrome";
 			request.ContentType = "application/json";
 
-			string payload = "{\"prompt\": \""+text+"\", \"length\": 10}";
+			string payload = "{\"prompt\": \"" + text + "\", \"length\": 20}";
 
 			using (StreamWriter streamWriter = new StreamWriter(request.GetRequestStream()))
 			{
@@ -36,9 +36,14 @@ namespace PoetryApp.Models
 					using (StreamReader reader = new StreamReader(stream))
 					{
 						string res = await reader.ReadToEndAsync();
-						return JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(res)["replies"][2];
+						Dictionary<string, List<string>> json = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(res);
+						foreach (string sample in json["replies"])
+						{
+							if (sample.Contains("\n"))
+								return sample.Split('\n')[1];
+						}
+						return json["replies"][0];
 					}
-
 				}
 				catch
 				{
