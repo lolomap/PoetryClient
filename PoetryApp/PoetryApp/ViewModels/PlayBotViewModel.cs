@@ -26,13 +26,16 @@ namespace PoetryApp.ViewModels
 
 			analyzer = new PoemAnalyzer();
 
-			Messages.Add(new Message("Поэт", "" + Task.Run(() => GenerationAPI.GeneratePorfire("Белеет парус одинокий")).Result));
+			Messages.Add(new Message("Поэт", "" + Task.Run(() => GenerationAPI.GeneratePorfire("Белеет парус одинокий,\\n")).Result));
 		}
 
 		public ICommand SendMessageCommand { get; }
 
 		private async Task OnSendMessage()
 		{
+			if (SendMessageInputText == "" || SendMessageInputText == null)
+				return;
+			//SendMessageInputText = DictionaryAPIManager.SpellCheck(SendMessageInputText);
 			Message m = new Message("Игрок", SendMessageInputText, true);
 			Messages.Add(m);
 			MessagesText += m.Text + "\\n";

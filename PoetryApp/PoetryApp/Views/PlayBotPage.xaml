@@ -10,8 +10,8 @@
 	</ContentPage.BindingContext>
 
 	<ContentPage.Content>
-		<StackLayout Padding="40">
-			<Grid Padding="10">
+		<StackLayout Padding="30">
+			<Grid Padding="0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
@@ -45,7 +45,8 @@
 										<Label Text="{Binding Text}"  HorizontalOptions="{Binding HorizontalOptions}" TextColor="Black"
 											FontSize="13" />
 										<Label x:Name="MessageScoreText" Text="{Binding ScoreText}" HorizontalOptions="{Binding HorizontalOptions}"
-											LineBreakMode="NoWrap" FontSize="13" TextColor="Red"/>
+											LineBreakMode="NoWrap" FontSize="13" TextColor="{Binding ScoreColor}"
+											IsVisible="{Binding isPlayer}"/>
 									</StackLayout>
 								</Frame>
 							</Grid>
@@ -54,8 +55,41 @@
 				</CollectionView>
 			</Frame>
 
-			<Label Text="Пишите рифму" HorizontalOptions="Center" FontSize="Title"
-				   TextColor="Black" Padding="10" HeightRequest="100" VerticalTextAlignment="Center"/>
+			<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+				<Label Text="Пишите рифму" FontSize="Title"
+				   TextColor="Black" HeightRequest="100" VerticalTextAlignment="Center"
+				/>
+
+				<AbsoluteLayout HeightRequest="100" VerticalOptions="Center">
+					<Path Fill="Black" Stroke="Black" Aspect="Fill" HeightRequest="66" WidthRequest="103" Scale="0.65" Rotation="180" RotationY="180"
+						Data="M649 596 c-154 -43 -339 -203 -490 -425 -29 -42 -64 -89 -78 -105
+						l-26 -30 30 19 c16 10 53 37 81 60 94 77 298 137 659 195 97 15 123 23 138 41
+						44 54 34 124 -27 183 -71 68 -179 91 -287 62z m135 -15 c3 -5 -8 -14 -24 -21
+						-30 -12 -90 -72 -90 -90 0 -5 -9 -11 -20 -14 -63 -18 -59 -19 -51 12 15 51 41
+						91 69 106 30 17 108 21 116 7z m114 -38 c16 -7 15 -23 -2 -23 -15 0 -46 -15
+						-88 -44 -16 -10 -34 -16 -43 -13 -8 4 -16 3 -19 -2 -3 -4 14 -8 37 -9 63 -4
+						184 -68 165 -88 -3 -2 -36 11 -74 31 -38 19 -86 38 -106 41 -21 4 -38 12 -38
+						19 0 8 -9 10 -25 7 -14 -2 -25 0 -25 5 0 14 71 79 105 96 27 14 34 14 65 0 19
+						-8 41 -17 48 -20z m-272 8 c-10 -11 -24 -41 -32 -67 -8 -26 -20 -52 -27 -57
+						-7 -5 -1 -5 13 0 14 4 61 8 105 7 72 0 90 -4 163 -38 45 -22 79 -42 77 -46 -2
+						-4 -24 -10 -48 -13 -32 -5 -77 2 -162 23 -64 17 -136 30 -159 30 -38 1 -40 2
+						-22 15 23 17 14 20 -16 4 -29 -16 -31 -7 -13 54 15 52 20 58 68 81 63 31 76
+						32 53 7z m327 -69 l19 -32 -27 0 c-14 0 -34 -4 -43 -9 -11 -5 -31 -2 -57 9
+						l-40 17 35 19 c74 40 88 40 113 -4z m-465 -41 c-10 -46 -17 -55 -55 -78 -24
+						-14 -42 -27 -39 -30 2 -2 22 7 45 21 31 20 54 26 97 26 55 0 231 -35 247 -49
+						16 -15 -136 -32 -192 -21 -29 5 -68 10 -85 9 -41 -1 -25 -6 49 -15 l60 -7 -50
+						-14 c-27 -8 -99 -18 -158 -21 l-109 -7 33 28 c23 19 45 27 71 27 20 0 39 4 42
+						9 3 4 -5 6 -18 4 -14 -3 -31 -1 -40 4 -14 7 -13 14 8 58 20 45 92 123 102 112
+						2 -2 -1 -27 -8 -56z m478 -16 c4 -8 3 -22 0 -31 -5 -13 -10 -12 -35 8 -15 13
+						-26 26 -24 31 8 13 54 7 59 -8z m-594 -63 c-15 -44 -56 -91 -68 -79 -11 11 64
+						127 82 127 1 0 -5 -22 -14 -48z m-86 -85 c-13 -32 -56 -70 -56 -49 0 11 63 93
+						68 88 2 -2 -3 -20 -12 -39z m69 -48 c-33 -10 -71 -18 -85 -16 -24 3 -23 4 10
+						20 19 9 58 16 85 16 l50 0 -60 -20z m-139 -24 c-4 -12 0 -14 22 -9 l27 6 -25
+						-14 c-14 -8 -27 -10 -28 -6 -2 5 -11 3 -20 -4 -12 -10 -12 -7 2 15 20 29 32
+						36 22 12z"
+					/>
+				</AbsoluteLayout>
+			</StackLayout>
 
 			<Frame CornerRadius="30" BackgroundColor="LightGray">
 				<StackLayout Orientation="Horizontal">
@@ -64,7 +98,8 @@
 					Text="{Binding SendMessageInputText}"
 					ReturnCommand="{Binding SendMessageCommand, Mode=TwoWay}"/>
 					<Button Text=">" BackgroundColor="#55cf0a" TextColor="Black" FontSize="Title"
-							Command="{Binding SendMessageCommand}" CornerRadius="30"/>
+							Command="{Binding SendMessageCommand}" CornerRadius="30"
+					/>
 				</StackLayout>
 			</Frame>
 			

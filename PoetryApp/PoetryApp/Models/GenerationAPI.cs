@@ -18,7 +18,7 @@ namespace PoetryApp.Models
 			request.UserAgent = "Chrome";
 			request.ContentType = "application/json";
 
-			string payload = "{\"prompt\": \"" + text + "\", \"length\": 20}";
+			string payload = "{\"prompt\": \"" + text + "\", \"length\": 30}";
 
 			using (StreamWriter streamWriter = new StreamWriter(request.GetRequestStream()))
 			{

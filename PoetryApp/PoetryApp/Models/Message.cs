@@ -26,8 +26,24 @@ namespace PoetryApp.Models
 		public string FromName { get; set; }
 		public string ScoreText { get => _scoreText; set { _scoreText = value; NotifyPropertyChanged("ScoreText"); } }
 		string _scoreText;
-		public double Score { get { return score_; } set { ScoreText = value.ToString(); score_ = value; } }
-		double score_;
+		public double Score {
+			get { return _score; }
+			set
+			{
+				ScoreText = value.ToString();
+
+				if (value > 0)
+					ScoreColor = Color.Green;
+				else if (value > -2)
+					ScoreColor = Color.Brown;
+				else ScoreColor = Color.Red;
+
+				_score = value;
+			}
+		}
+		double _score;
+		public Color ScoreColor { get { return _scoreColor; } set { _scoreColor = value; NotifyPropertyChanged("ScoreColor"); } }
+		Color _scoreColor = Color.Black;
 
 		public LayoutOptions HorizontalOptions { get; set; }
 		public int column { get; set; }
