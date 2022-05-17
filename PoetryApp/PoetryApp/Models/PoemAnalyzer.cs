@@ -6,8 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Security;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -96,7 +98,7 @@ namespace PoetryApp.Models
 
 	public class PoemAnalyzer
 	{
-		string alphabet = "йцукенгшщзхъфывапролджэячсмитьбюё ";
+		string alphabet = "йцукенгшщзхъфывапролджэячсмитьбюё -";
 		string vowels_strong = "уыаоэ";
 		string vowels_soft = "юияёе";
 		string vowels = "уыаоэюияёе";
@@ -121,6 +123,32 @@ namespace PoetryApp.Models
 			{ "тщ", "щщ" },
 			{ "сч", "щщ" },
 		};
+
+		Dictionary<string, List<string>> simple_rhymes = new Dictionary<string, List<string>>();
+
+
+		public PoemAnalyzer()
+		{
+			Assembly assembly = IntrospectionExtensions.GetTypeInfo(typeof(PoemAnalyzer)).Assembly;
+			using (Stream stream = assembly.GetManifestResourceStream("PoetryApp.SimpleRhymes.txt"))
+			{
+				using (StreamReader sr = new StreamReader(stream))
+				{
+					string line;
+					while ((line = sr.ReadLine()) != null)
+					{
+						string[] words = line.ToLower().Split(new[] { " — " }, StringSplitOptions.None);
+
+						foreach(string word in words)
+						{
+							List<string> ws = new List<string>(words);
+							ws.Remove(word);
+							simple_rhymes[word] = ws;
+						}
+					}
+				}
+			}
+		}
 
 		public void FootByPoem(string poem)
 		{
@@ -294,6 +322,46 @@ namespace PoetryApp.Models
 			else return false;
 		}
 
+		bool IsSameLength(int l1, int l2)
+		{
+			return l1 == l2;
+		}
+
+		bool IsExoticWord(Word w1)
+		{
+			return w1.Frequency < 0.1;
+		}
+
+		bool IsSimpleRhyme(Word w1, Word w2)
+		{
+
+			if (simple_rhymes.ContainsKey(w1.Lemm))
+			{
+				if (simple_rhymes[w1.Lemm].Contains(w2.Lemm) || simple_rhymes[w1.Lemm].Contains(w2.Text))
+					return true;
+				else return false;
+			}
+			else if (simple_rhymes.ContainsKey(w2.Lemm))
+			{
+				if (simple_rhymes[w2.Lemm].Contains(w1.Lemm) || simple_rhymes[w2.Lemm].Contains(w1.Text))
+					return true;
+				else return false;
+			}
+			else if (simple_rhymes.ContainsKey(w1.Text))
+			{
+				if (simple_rhymes[w1.Text].Contains(w2.Lemm) || simple_rhymes[w1.Text].Contains(w2.Text))
+					return true;
+				else return false;
+			}
+			else if (simple_rhymes.ContainsKey(w2.Text))
+			{
+				if (simple_rhymes[w2.Text].Contains(w1.Lemm) || simple_rhymes[w2.Text].Contains(w1.Text))
+					return true;
+				else return false;
+			}
+			else return false;
+		}
+
 		void SetRhymePair(string word1, string word2, int stressPos1, int stressPos2, RhymePair pair)
 		{
 			if (stressPos1 < word1.Length && stressPos2 < word2.Length)
@@ -311,13 +379,38 @@ namespace PoetryApp.Models
 			AssignRhymeTypes(pair);
 		}
 
-		public async Task<double> ScoreRhyme(string word1, string word2)
+		public async Task<double> ScoreRhyme(string line1, string line2)
 		{
 			#region [Variables Init]
 			RhymePair pair = new RhymePair();
 			double score = 0;
 
-			word1 = CleanPunctuation(word1.ToLower()); word2 = CleanPunctuation(word2.ToLower());
+			int length1 = Regex.Matches(line1, @"[уеыаоэяиёю]", RegexOptions.IgnoreCase).Count;
+			int length2 = Regex.Matches(line2, @"[уеыаоэяиёю]", RegexOptions.IgnoreCase).Count;
+
+			string[] lineSep1 = line1.Split(' ');
+			string[] lineSep2 = line2.Split(' ');
+			string word1 = "", word2 = "";
+			for(int i = lineSep1.Length - 1; i >= 0; i--)
+			{
+				string a = CleanPunctuation(lineSep1[i].ToLower());
+				if (a != "")
+				{
+					word1 = a;
+					break;
+				}
+			}
+			for (int i = lineSep2.Length - 1; i >= 0; i--)
+			{
+				string a = CleanPunctuation(lineSep2[i].ToLower());
+				if (a != "")
+				{
+					word2 = a;
+					break;
+				}
+			}
+			if (word1 == "" || word2 == "")
+				return -100;
 
 			Word w1 = new Word(await DictionaryAPIManager.SearchWordInDictionary(YoToYe(word1)));
 			Word w2 = new Word(await DictionaryAPIManager.SearchWordInDictionary(YoToYe(word2)));
@@ -335,6 +428,8 @@ namespace PoetryApp.Models
 
 			pair.speechPart1 = w1.speechPart;
 			pair.speechPart2 = w2.speechPart;
+			pair.word1 = word1;
+			pair.word2 = word2;
 
 			word1 = Simplificate(word1);
 			word2 = Simplificate(word2);
@@ -347,14 +442,16 @@ namespace PoetryApp.Models
 			{
 				score -= IsVerbishRhyme(pair) ? 1 : 0;
 				score -= IsOnlyStressRhyme(pair) ? 1 : 0;
+				score -= IsSimpleRhyme(w1, w2) ? 1 : 0;
+
 				score += (IsDifferentSpeechPart(pair) || IsNonRhymingLemms(w1, w2, pair)) ? 1 : 0;
 				score += IsRichRhyme(pair) ? 1 : 0;
+				score += IsSameLength(length1, length2) ? 1 : -1;
+				score += IsExoticWord(w1) ? 1 : 0;
 			}
 			else return -2;
 
 			return score;
 		}
-
-		
 	}
 }

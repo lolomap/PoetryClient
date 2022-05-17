@@ -4,27 +4,20 @@
 			 x:Class="PoetryApp.Views.PlayBotPage"
 			 xmlns:vm="clr-namespace:PoetryApp.ViewModels"
 			 xmlns:model="clr-namespace:PoetryApp.Models"
-			 Title="{Binding Title}">
+			 Title="{Binding Title}"
+			 BackgroundImageSource="bg.png">
 	<ContentPage.BindingContext>
 		<vm:PlayBotViewModel />
 	</ContentPage.BindingContext>
 
 	<ContentPage.Content>
-		<StackLayout Padding="30">
-			<Grid Padding="0">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
+		<!--10 85 125-->
+		<StackLayout Padding="45,10,45,75">
 
-				<Button Grid.Column="1" Text="Подсказка" FontSize="Title" HeightRequest="100" WidthRequest="300"
-						BackgroundColor="#55cf0a" TextColor="Black" />
+			<Button Grid.Column="1" Text="Подсказка" FontSize="Title" HorizontalOptions="Center"
+						BackgroundColor="#54cf09" TextColor="Black" CornerRadius="15"/>
 
-			</Grid>
-
-
-			<Frame CornerRadius="30" BackgroundColor="LightGray">
+			<Frame CornerRadius="20" BackgroundColor="#868686">
 				<CollectionView x:Name="MessagesList"
 				ItemsSource="{Binding Messages}"
 				SelectionMode="None"
@@ -37,8 +30,8 @@
 									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
 								<Frame Grid.Column="{Binding column}" BackgroundColor="#ffe500"
-									   Padding="0" CornerRadius="15" HasShadow="False">
-									<StackLayout Padding="20">
+									   Padding="0" CornerRadius="10" HasShadow="False">
+									<StackLayout Padding="5">
 										<Label Text="{Binding FromName}" HorizontalOptions="{Binding HorizontalOptions}"
 											LineBreakMode="NoWrap" TextColor="Black"
 											FontSize="16" />
@@ -56,12 +49,12 @@
 			</Frame>
 
 			<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-				<Label Text="Пишите рифму" FontSize="Title"
-				   TextColor="Black" HeightRequest="100" VerticalTextAlignment="Center"
+				<Label Text="Пишите рифму" FontSize="Subtitle" Padding="25,0,0,0" LineBreakMode="NoWrap"
+				   TextColor="Black" VerticalTextAlignment="End"
 				/>
 
-				<AbsoluteLayout HeightRequest="100" VerticalOptions="Center">
-					<Path Fill="Black" Stroke="Black" Aspect="Fill" HeightRequest="66" WidthRequest="103" Scale="0.65" Rotation="180" RotationY="180"
+				<AbsoluteLayout HeightRequest="60" VerticalOptions="End" Padding="0,0,0,0">
+					<Path Fill="Black" Stroke="Black" Aspect="Fill" HeightRequest="90" WidthRequest="127" Scale="0.35" Rotation="180" RotationY="180"
 						Data="M649 596 c-154 -43 -339 -203 -490 -425 -29 -42 -64 -89 -78 -105
 						l-26 -30 30 19 c16 10 53 37 81 60 94 77 298 137 659 195 97 15 123 23 138 41
 						44 54 34 124 -27 183 -71 68 -179 91 -287 62z m135 -15 c3 -5 -8 -14 -24 -21
@@ -91,14 +84,14 @@
 				</AbsoluteLayout>
 			</StackLayout>
 
-			<Frame CornerRadius="30" BackgroundColor="LightGray">
+			<Frame CornerRadius="20" BackgroundColor="#868686">
 				<StackLayout Orientation="Horizontal">
 					<Entry
 					HorizontalOptions="FillAndExpand"
 					Text="{Binding SendMessageInputText}"
 					ReturnCommand="{Binding SendMessageCommand, Mode=TwoWay}"/>
-					<Button Text=">" BackgroundColor="#55cf0a" TextColor="Black" FontSize="Title"
-							Command="{Binding SendMessageCommand}" CornerRadius="30"
+					<Button Text=">" BackgroundColor="#54cf09" TextColor="Black" FontSize="Subtitle"
+							Command="{Binding SendMessageCommand}" CornerRadius="15"
 					/>
 				</StackLayout>
 			</Frame>

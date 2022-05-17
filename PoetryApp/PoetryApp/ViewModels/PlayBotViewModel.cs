@@ -39,9 +39,9 @@ namespace PoetryApp.ViewModels
 			Message m = new Message("Игрок", SendMessageInputText, true);
 			Messages.Add(m);
 			MessagesText += m.Text + "\\n";
-			var m1 = SendMessageInputText.Trim().Split(' ');
-			var m2 = Messages[Messages.Count - 2].Text.Trim().Split(' ');
-			m.Score = await analyzer.ScoreRhyme(m1[m1.Length - 1], m2[m2.Length - 1]);
+			var m1 = SendMessageInputText.Trim();
+			var m2 = Messages[Messages.Count - 2].Text.Trim();
+			m.Score = await analyzer.ScoreRhyme(m1, m2);
 
 			await BotGenMessage();
 

@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PoetryApp.Views.MainPage"
              xmlns:vm="clr-namespace:PoetryApp.ViewModels"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+			 BackgroundImageSource="bg.png"
+			 NavigationPage.HasNavigationBar="False">
     <ContentPage.BindingContext>
         <vm:MainViewModel />
     </ContentPage.BindingContext>

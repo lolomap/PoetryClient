@@ -8,6 +8,11 @@
   <ItemGroup>
     <None Remove="Models\dictionary.txt" />
     <None Remove="ru-100k.txt" />
+    <None Remove="SimpleRhymes.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="SimpleRhymes.txt" />
   </ItemGroup>
 
   <ItemGroup>
