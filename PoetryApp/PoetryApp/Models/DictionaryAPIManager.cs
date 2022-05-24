@@ -10,18 +10,7 @@ namespace PoetryApp.Models
 {
 	public class DictionaryAPIManager
 	{
-		public static string url = "https://poetry-api-l.herokuapp.com/";
-		//static SymSpell spellchecker = new SymSpell(100000, 2);
-
-		//public static void LoadSpellChecker()
-		//{
-		//	Assembly assembly = IntrospectionExtensions.GetTypeInfo(typeof(DictionaryAPIManager)).Assembly;
-		//	using (Stream stream = assembly.GetManifestResourceStream("PoetryApp.ru-100k.txt"))
-		//	{
-		//		if (!spellchecker.LoadDictionary(stream, 0, 1))
-		//			throw new Exception("Load Spell Checker failed");
-		//	}
-		//}
+		public static string url = "http://62.113.110.236/";
 
 		public static async Task<string> SearchWordInDictionary(string word)
 		{
@@ -44,11 +33,25 @@ namespace PoetryApp.Models
 			}
 		}
 
-		//public static string SpellCheck(string text)
-		//{
-		//	List<SymSpell.SuggestItem> s = spellchecker.LookupCompound(text, 1);
+		public static async Task<string> SpellCheck(string text)
+		{
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url + "api/Spellcheck/" + text);
+			request.Method = "GET";
+			request.ContentType = "application/json; charset=utf-8";
 
-		//	return s[0].term;
-		//}
+			try
+			{
+				using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+				using (Stream stream = response.GetResponseStream())
+				using (StreamReader reader = new StreamReader(stream))
+				{
+					return await reader.ReadToEndAsync();
+				}
+			}
+			catch
+			{
+				return "None";
+			}
+		}
 	}
 }

@@ -89,9 +89,11 @@
 				<Frame CornerRadius="20" BackgroundColor="#868686">
 					<StackLayout Orientation="Horizontal">
 						<Entry
-					HorizontalOptions="FillAndExpand"
-					Text="{Binding SendMessageInputText}"
-					ReturnCommand="{Binding SendMessageCommand, Mode=TwoWay}"/>
+							HorizontalOptions="FillAndExpand"
+							Text="{Binding SendMessageInputText}"
+							ReturnCommand="{Binding SendMessageCommand, Mode=TwoWay}"
+							ClearButtonVisibility="WhileEditing"
+						/>
 						<Button Text=">" BackgroundColor="#54cf09" TextColor="Black" FontSize="Subtitle"
 							Command="{Binding SendMessageCommand}" CornerRadius="15" HorizontalOptions="Center"
 						/>

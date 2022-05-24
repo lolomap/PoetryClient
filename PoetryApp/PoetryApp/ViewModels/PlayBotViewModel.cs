@@ -57,7 +57,7 @@ namespace PoetryApp.ViewModels
 		{
 			if (SendMessageInputText == "" || SendMessageInputText == null)
 				return;
-			//SendMessageInputText = DictionaryAPIManager.SpellCheck(SendMessageInputText);
+			SendMessageInputText = await DictionaryAPIManager.SpellCheck(SendMessageInputText);
 			Message m = new Message("Игрок", SendMessageInputText, true);
 			Messages.Add(m);
 			MessagesText += m.Text + "\\n";
