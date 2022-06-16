@@ -38,6 +38,7 @@ namespace PoetryApp.Models
 		public string Lemm;
 		public string Text;
 		public SpeechPart speechPart;
+		public int speechPartSimplified;
 		public int StressPosition;
 		public double Frequency;
 
@@ -51,12 +52,31 @@ namespace PoetryApp.Models
 				return;
 			}
 
-			var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+			Dictionary<string, string> data = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 			Lemm = data["Lemm"];
 			Text = data["Text"];
 			speechPart = (SpeechPart)int.Parse(data["speechPart"]);
 			StressPosition = int.Parse(data["StressPosition"]);
 			Frequency = double.Parse(data["Frequency"], CultureInfo.InvariantCulture);
+
+			switch (speechPart)
+			{
+				case SpeechPart.Verb:
+					speechPartSimplified = 0;
+					break;
+				case SpeechPart.Noun:
+					speechPartSimplified = 1;
+					break;
+				case SpeechPart.Adjective:
+					speechPartSimplified = 2;
+					break;
+				case SpeechPart.Adverb:
+					speechPartSimplified = 3;
+					break;
+				default:
+					speechPartSimplified = 1;
+					break;
+			}
 		}
 	}
 
@@ -379,7 +399,7 @@ namespace PoetryApp.Models
 			AssignRhymeTypes(pair);
 		}
 
-		public async Task<double> ScoreRhyme(string line1, string line2)
+		public async Task<Tuple<double, Word>> ScoreRhyme(string line1, string line2)
 		{
 			#region [Variables Init]
 			RhymePair pair = new RhymePair();
@@ -410,16 +430,16 @@ namespace PoetryApp.Models
 				}
 			}
 			if (word1 == "" || word2 == "")
-				return -100;
+				return new Tuple<double, Word>(-100, null);
 
 			Word w1 = new Word(await DictionaryAPIManager.SearchWordInDictionary(YoToYe(word1)));
 			Word w2 = new Word(await DictionaryAPIManager.SearchWordInDictionary(YoToYe(word2)));
 			//TODO: Необходимо создать класс Stress, который бы определял и сравнивал все возможные ударения
 			if (!w1.SuccessParse || !w2.SuccessParse)
-				return -100;
+				return new Tuple<double, Word>(-100, null);
 
 			if (w1 == null || w2 == null)
-				return -100;
+				return new Tuple<double, Word>(-100, null);
 
 			int stressPos1 = w1.StressPosition;
 			int stressPos2 = w2.StressPosition;
@@ -446,12 +466,12 @@ namespace PoetryApp.Models
 
 				score += (IsDifferentSpeechPart(pair) || IsNonRhymingLemms(w1, w2, pair)) ? 1 : 0;
 				score += IsRichRhyme(pair) ? 1 : 0;
-				score += IsSameLength(length1, length2) ? 1 : -1;
+				//score += IsSameLength(length1, length2) ? 1 : -1;
 				score += IsExoticWord(w1) ? 1 : 0;
 			}
-			else return -2;
+			else return new Tuple<double, Word>(-2, w2);
 
-			return score;
+			return new Tuple<double, Word>(score, w2);
 		}
 	}
 }

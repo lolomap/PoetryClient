@@ -13,11 +13,13 @@
 	<ContentPage.Content>
 		<Grid>
 			<StackLayout Padding="45,10,45,75">
-
-				<Button Grid.Column="1" Text="Подсказка" FontSize="Title" HorizontalOptions="Center"
-						BackgroundColor="#54cf09" TextColor="Black" CornerRadius="15"
+				<StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
+					<Button Text="Подсказка" HorizontalOptions="Center" CornerRadius="15"
+						FontSize="Large"
 						Command="{Binding ShowHintWindowCommand}"
-						/>
+					/>
+					
+				</StackLayout>
 
 				<Frame CornerRadius="20" BackgroundColor="#868686">
 					<CollectionView x:Name="MessagesList"
@@ -31,7 +33,7 @@
 										<ColumnDefinition Width="*" />
 										<ColumnDefinition Width="*" />
 									</Grid.ColumnDefinitions>
-									<Frame Grid.Column="{Binding column}" BackgroundColor="#ffe500"
+									<Frame Grid.Column="{Binding column}" BackgroundColor="White"
 									   Padding="0" CornerRadius="10" HasShadow="False">
 										<StackLayout Padding="5">
 											<Label Text="{Binding FromName}" HorizontalOptions="{Binding HorizontalOptions}"
@@ -86,7 +88,7 @@
 					</AbsoluteLayout>
 				</StackLayout>
 
-				<Frame CornerRadius="20" BackgroundColor="#868686">
+				<Frame CornerRadius="20" BackgroundColor="#868686" HeightRequest="50">
 					<StackLayout Orientation="Horizontal">
 						<Entry
 							HorizontalOptions="FillAndExpand"
@@ -94,32 +96,42 @@
 							ReturnCommand="{Binding SendMessageCommand, Mode=TwoWay}"
 							ClearButtonVisibility="WhileEditing"
 						/>
-						<Button Text=">" BackgroundColor="#54cf09" TextColor="Black" FontSize="Subtitle"
+						<Button Text="→" FontSize="Title"
 							Command="{Binding SendMessageCommand}" CornerRadius="15" HorizontalOptions="Center"
 						/>
 					</StackLayout>
 				</Frame>
+
+				<Button Text="Завершить игру" HorizontalOptions="Center" CornerRadius="15"
+					Command="{Binding ShowResultsWindowCommand}"
+					FontSize="Large"
+				/>
 
 			</StackLayout>
 
 			<Grid IsVisible="{Binding HintWindowVisibility}">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="0.2*" />
-					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
 					<RowDefinition Height="3*" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="0.15*" />
-					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="0.15*" />
 				</Grid.ColumnDefinitions>
 
 				<Frame Grid.Row="1" Grid.Column="1" CornerRadius="30" Padding="0"
 					   BackgroundColor="Transparent">
 					<Grid>
-						<Grid BackgroundColor="#007D67" Opacity="0.9"></Grid>
+						<Grid BackgroundColor="#4875cd" Opacity="0.9"></Grid>
 						
 						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="*" />
 								<RowDefinition Height="Auto" />
@@ -128,19 +140,21 @@
 								<RowDefinition Height="*" />
 							</Grid.RowDefinitions>
 
-							<Grid Padding="5"  Grid.Row="1">
-								<Label Text="Подходящая рифма:" FontSize="40" TextColor="Black"
+							<Grid Padding="15"/>
+
+							<Grid Padding="5"  Grid.Row="1" Grid.Column="1">
+								<Label Text="Подходящая рифма:" FontSize="40" TextColor="White"
 								   HorizontalOptions="Center"/>
 							</Grid>
 
-							<Grid Padding="5"  Grid.Row="2">
-								<Frame HorizontalOptions="Center" BackgroundColor="#ffe500" WidthRequest="250" Padding="10">
+							<Grid Padding="5"  Grid.Row="2" Grid.Column="1">
+								<Frame HorizontalOptions="Center" BackgroundColor="#7995cc" WidthRequest="250" Padding="10">
 									<Label Text="СЛОВО" FontSize="Title" TextColor="Black" HorizontalOptions="Center" />
 								</Frame>
 							</Grid>
-							
-							<Grid Padding="10"  Grid.Row="3">
-								<Button HorizontalOptions="Center" Text="✓" TextColor="Black" Padding="15,0,10,0"
+
+							<Grid Padding="10"  Grid.Row="3" Grid.Column="1">
+								<Button HorizontalOptions="Center" Text="✓" Padding="15,0,10,0" TextColor="Black"
 									FontSize="45" CornerRadius="45" HeightRequest="70" WidthRequest="70" BackgroundColor="#54cf09"
 									Command="{Binding HideHintWindowCommand}"
 								/>
@@ -149,7 +163,57 @@
 					</Grid>
 				</Frame>
 			</Grid>
-			
+
+			<Grid IsVisible="{Binding ResultsWindowVisibility}">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="0.2*" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="3*" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="0.15*" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="0.15*" />
+				</Grid.ColumnDefinitions>
+
+				<Frame Grid.Row="1" Grid.Column="1" CornerRadius="30" Padding="0"
+					   BackgroundColor="Transparent">
+					<Grid>
+						<Grid BackgroundColor="#007D67" Opacity="0.9"></Grid>
+
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+							
+							<Grid Grid.Row="1" Padding="10">
+								<Label Text="{Binding MessagesText}" TextColor="Black" FontSize="Medium" />
+							</Grid>
+
+							<Grid Grid.Row="2" Padding="10">
+								<Label Text="{Binding TotalScoreText}" TextColor="Black" FontSize="Medium" />
+							</Grid>
+
+							<Grid Grid.Row="3" Padding="10">
+								<StackLayout Orientation="Horizontal">
+									<Button HorizontalOptions="Center" Text="✓"
+											CornerRadius="25" HeightRequest="70" WidthRequest="70"
+										Command="{Binding HideResultsWindowCommand}"
+									/>
+									<Button HorizontalOptions="Center" Text="Share" CornerRadius="25" Command="{Binding SharePoemCommand}"
+									/>
+								</StackLayout>
+							</Grid>
+
+						</Grid>
+					</Grid>
+				</Frame>
+			</Grid>
+
 		</Grid>
 	</ContentPage.Content>
 </ContentPage>
