@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:viewmodels="clr-namespace:PoetryApp.ViewModels"
+			 x:Class="PoetryApp.Views.AccountPage"
+			 Title="{Binding Title}"
+			 >
+	<ContentPage.BindingContext>
+		<viewmodels:AccountViewModel />
+	</ContentPage.BindingContext>
+	<ContentPage.Content>
+		<RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+			<ScrollView>
+				<StackLayout>
+					<Label Text="{Binding UserName}"
+					   HorizontalOptions="CenterAndExpand"
+					   FontSize="Header"
+				/>
+
+					<Button Text="Войти" FontSize="Large" HorizontalOptions="Center" Padding="60,0,60,0"
+						IsVisible="{Binding LoggedOut}" Command="{Binding LoginCommand}"		
+				/>
+				</StackLayout>
+			</ScrollView>
+		</RefreshView>
+	</ContentPage.Content>
+</ContentPage>

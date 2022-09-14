@@ -15,14 +15,14 @@ namespace PoetryApp.ViewModels
         {
             Title = "Стихоплёт";
 
-            PlayBotStartCommand = new Command(OnPlayBotStart);
+            PlayBotStartCommand = new Command(async () => await OnPlayBotStart());
 
 			//MainModel.Dict.LoadDictionaryFast();
         }
 
         public ICommand PlayBotStartCommand { get; }
 
-        private async void OnPlayBotStart(object obj)
+        private async Task OnPlayBotStart()
         {
             await Shell.Current.GoToAsync(nameof(PlayBotPage));
         }

@@ -53,6 +53,7 @@ namespace PoetryApp.ViewModels
 
 			//string starttext = Task.Run(() => GenerationAPI.GeneratePorfire("Белеет парус одинокий,\n")).Result;
 			string starttext = Task.Run(() => GenerationAPI.GenerateSimple()).Result;
+			//string starttext = await GenerationAPI.GenerateSimple();
 			MessagesText += starttext + "\n";
 			Messages.Add(new Message("Поэт", starttext));
 		}

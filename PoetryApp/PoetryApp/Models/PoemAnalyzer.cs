@@ -435,10 +435,11 @@ namespace PoetryApp.Models
 			Word w1 = new Word(await DictionaryAPIManager.SearchWordInDictionary(YoToYe(word1)));
 			Word w2 = new Word(await DictionaryAPIManager.SearchWordInDictionary(YoToYe(word2)));
 			//TODO: Необходимо создать класс Stress, который бы определял и сравнивал все возможные ударения
-			if (!w1.SuccessParse || !w2.SuccessParse)
-				return new Tuple<double, Word>(-100, null);
 
 			if (w1 == null || w2 == null)
+				return new Tuple<double, Word>(-100, null);
+
+			if (!w1.SuccessParse || !w2.SuccessParse)
 				return new Tuple<double, Word>(-100, null);
 
 			int stressPos1 = w1.StressPosition;

@@ -4,11 +4,40 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+			 xmlns:viewmodels="clr-namespace:PoetryApp.ViewModels"
              x:Class="PoetryApp.Views.LoginPage"
+			 BackgroundImageSource="bg.png"
              Shell.NavBarIsVisible="False">
-    <ContentPage.Content>
-        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
-        </StackLayout>
-    </ContentPage.Content>
+	<ContentPage.BindingContext>
+		<viewmodels:LoginViewModel />
+	</ContentPage.BindingContext>
+	<ContentPage.Content>
+		<StackLayout Padding="10,0,10,0" VerticalOptions="Center">
+			<Label VerticalOptions="Center" Text="Логин:" FontSize="Large" TextColor="Black"
+				   HorizontalOptions="Center"/>
+			<Frame>
+				<Entry
+					HorizontalOptions="FillAndExpand"
+					Text="{Binding Username}"
+					ReturnCommand="{Binding LoginCommand, Mode=TwoWay}"
+					ClearButtonVisibility="WhileEditing"
+				/>
+			</Frame>
+
+			<Label VerticalOptions="Center" Text="Пароль:" FontSize="Large" TextColor="Black"
+				   HorizontalOptions="Center"/>
+			<Frame>
+				<Entry
+					HorizontalOptions="FillAndExpand"
+					Text="{Binding Password}"
+					ReturnCommand="{Binding RegisterCommand, Mode=TwoWay}"
+					ClearButtonVisibility="WhileEditing"
+					IsPassword="True"
+				/>
+			</Frame>
+
+			<Button VerticalOptions="Center" Text="Войти" Command="{Binding LoginCommand}"/>
+			<Button VerticalOptions="Center" Text="Зарегистрироваться" Command="{Binding RegisterCommand}"/>
+		</StackLayout>
+	</ContentPage.Content>
 </ContentPage>
