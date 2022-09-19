@@ -6,13 +6,13 @@
              mc:Ignorable="d"
 			 xmlns:viewmodels="clr-namespace:PoetryApp.ViewModels"
              x:Class="PoetryApp.Views.LoginPage"
-			 BackgroundImageSource="bg.png"
+			 BackgroundImageSource="Null"
              Shell.NavBarIsVisible="False">
 	<ContentPage.BindingContext>
 		<viewmodels:LoginViewModel />
 	</ContentPage.BindingContext>
-	<ContentPage.Content>
-		<StackLayout Padding="10,0,10,0" VerticalOptions="Center">
+    <ContentPage.Content>
+        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
 			<Label VerticalOptions="Center" Text="Логин:" FontSize="Large" TextColor="Black"
 				   HorizontalOptions="Center"/>
 			<Frame>
@@ -38,6 +38,6 @@
 
 			<Button VerticalOptions="Center" Text="Войти" Command="{Binding LoginCommand}"/>
 			<Button VerticalOptions="Center" Text="Зарегистрироваться" Command="{Binding RegisterCommand}"/>
-		</StackLayout>
-	</ContentPage.Content>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

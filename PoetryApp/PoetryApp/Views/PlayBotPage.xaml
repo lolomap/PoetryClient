@@ -5,7 +5,7 @@
 			 xmlns:vm="clr-namespace:PoetryApp.ViewModels"
 			 xmlns:model="clr-namespace:PoetryApp.Models"
 			 Title="{Binding Title}"
-			 BackgroundImageSource="bg.png">
+			 BackgroundImageSource="Null">
 	<ContentPage.BindingContext>
 		<vm:PlayBotViewModel />
 	</ContentPage.BindingContext>
@@ -21,7 +21,7 @@
 					
 				</StackLayout>
 
-				<Frame CornerRadius="20" BackgroundColor="#868686">
+				<Frame CornerRadius="20" BackgroundColor="#acdcff">
 					<CollectionView x:Name="MessagesList"
 				ItemsSource="{Binding Messages}"
 				SelectionMode="None"
@@ -33,7 +33,7 @@
 										<ColumnDefinition Width="*" />
 										<ColumnDefinition Width="*" />
 									</Grid.ColumnDefinitions>
-									<Frame Grid.Column="{Binding column}" BackgroundColor="White"
+									<Frame Grid.Column="{Binding column}" BackgroundColor="#d6edff"
 									   Padding="0" CornerRadius="10" HasShadow="False">
 										<StackLayout Padding="5">
 											<Label Text="{Binding FromName}" HorizontalOptions="{Binding HorizontalOptions}"
@@ -88,7 +88,7 @@
 					</AbsoluteLayout>
 				</StackLayout>
 
-				<Frame CornerRadius="20" BackgroundColor="#868686" HeightRequest="50">
+				<Frame CornerRadius="20" BackgroundColor="#acdcff" HeightRequest="50">
 					<StackLayout Orientation="Horizontal">
 						<Entry
 							HorizontalOptions="FillAndExpand"

@@ -4,7 +4,7 @@
              x:Class="PoetryApp.Views.MainPage"
              xmlns:vm="clr-namespace:PoetryApp.ViewModels"
              Title="{Binding Title}"
-			 BackgroundImageSource="bg.png"
+			 BackgroundImageSource="Null"
 			 NavigationPage.HasNavigationBar="False">
     <ContentPage.BindingContext>
         <vm:MainViewModel />
