@@ -21,6 +21,15 @@ namespace PoetryApp.ViewModels
 		public int GamesCount { get => _gamescount; set { _gamescount = value; NotifyPropertyChanged(); } }
 
 
+		private int _id;
+		public int Id { get => _id; set { _id = value; NotifyPropertyChanged(); } }
+
+		private int _totalscore;
+		public int TotalScore { get => _totalscore; set { _totalscore = value; NotifyPropertyChanged(); } }
+
+		private int _gamescount;
+		public int GamesCount { get => _gamescount; set { _gamescount = value; NotifyPropertyChanged(); } }
+
 		private bool _logged;
 		public bool LoggedOut { get => _logged; set { _logged = value; NotifyPropertyChanged(); } }
 		public bool LoggedIn { get => !_logged; set { _logged = !value; NotifyPropertyChanged(); } }
@@ -32,7 +41,6 @@ namespace PoetryApp.ViewModels
 		public AccountViewModel()
 		{
 			Title = "Профиль";
-
 			Render();
 
 			LoginCommand = new Command(async () => await OnLogin());

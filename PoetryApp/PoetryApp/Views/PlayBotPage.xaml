@@ -179,7 +179,7 @@
 				<Frame Grid.Row="1" Grid.Column="1" CornerRadius="30" Padding="0"
 					   BackgroundColor="Transparent">
 					<Grid>
-						<Grid BackgroundColor="#007D67" Opacity="0.9"></Grid>
+						<Grid BackgroundColor="#acdcff" Opacity="0.9"></Grid>
 
 						<Grid>
 							<Grid.RowDefinitions>

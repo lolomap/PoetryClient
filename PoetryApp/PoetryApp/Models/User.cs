@@ -13,8 +13,12 @@ namespace PoetryApp.Models
 	{
 		public static string Password { get; set; }
 		public static string Username { get; set; }
+		public static int Id { get; set; }
+		public static int TotalScore { get; set; }
+		public static int GamesCount { get; set; }
 		public static User user { get; set; } = null;
-		//public static User user { get; set; } = new User() { Name = "legatt" };
+
+		//public static User user { get; set; } = new User() { Name = "aboba", Id = 123, GamesCount = 69, TotalScore = 228 };
 
 		public static async Task<int> Login(string username, string password)
 		{
