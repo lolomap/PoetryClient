@@ -19,25 +19,24 @@
 					/>
 					<Label Text="Рекорд:"
 						HorizontalOptions="CenterAndExpand"
-						FontSize="Header"
+						FontSize="Body"
 						IsVisible="{Binding LoggedIn}"
 					/>
 					<Label Text="{Binding TotalScore}"
 						HorizontalOptions="CenterAndExpand"
-						FontSize="Header"
+						FontSize="Default"
 						IsVisible="{Binding LoggedIn}"
 					/>
 					<Label Text="Всего игр:"
 						HorizontalOptions="CenterAndExpand"
-						FontSize="Header"
+						FontSize="Body"
 						IsVisible="{Binding LoggedIn}"
 					/>
 					<Label Text="{Binding GamesCount}"
 						HorizontalOptions="CenterAndExpand"
-						FontSize="Header"
+						FontSize="Default"
 						IsVisible="{Binding LoggedIn}"
 					/>
-
 					<Button Text="Войти" FontSize="Large" HorizontalOptions="Center" Padding="60,0,60,0"
 						IsVisible="{Binding LoggedOut}" Command="{Binding LoginCommand}"		
 					/>

@@ -19,21 +19,11 @@ namespace PoetryApp.ViewModels
 		public int TotalScore { get => _total_score; set { _total_score = value; NotifyPropertyChanged(); } }
 		private int _gamescount;
 		public int GamesCount { get => _gamescount; set { _gamescount = value; NotifyPropertyChanged(); } }
-
-
 		private int _id;
 		public int Id { get => _id; set { _id = value; NotifyPropertyChanged(); } }
-
-		private int _totalscore;
-		public int TotalScore { get => _totalscore; set { _totalscore = value; NotifyPropertyChanged(); } }
-
-		private int _gamescount;
-		public int GamesCount { get => _gamescount; set { _gamescount = value; NotifyPropertyChanged(); } }
-
 		private bool _logged;
 		public bool LoggedOut { get => _logged; set { _logged = value; NotifyPropertyChanged(); } }
 		public bool LoggedIn { get => !_logged; set { _logged = !value; NotifyPropertyChanged(); } }
-
 		private bool _isrefreshing;
 		public bool IsRefreshing { get => _isrefreshing; set { _isrefreshing = value; NotifyPropertyChanged(); } }
 
