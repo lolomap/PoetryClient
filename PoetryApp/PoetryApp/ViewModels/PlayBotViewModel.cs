@@ -51,6 +51,8 @@ namespace PoetryApp.ViewModels
 
 			analyzer = new PoemAnalyzer();
 
+			_ = DictionaryAPIManager.SearchWordInDictionary("проверка");
+
 			//string starttext = Task.Run(() => GenerationAPI.GeneratePorfire("Белеет парус одинокий,\n")).Result;
 			string starttext = Task.Run(() => GenerationAPI.GenerateSimple()).Result;
 			//string starttext = await GenerationAPI.GenerateSimple();
@@ -106,7 +108,10 @@ namespace PoetryApp.ViewModels
 			m.Score = score;
 			TotalScore += score;
 
-			await BotGenMessage(result.Item2.speechPartSimplified, m1);
+			if (result.Item2 != null)
+				await BotGenMessage(result.Item2.speechPartSimplified, m1);
+			else
+				await BotGenMessage(0, m1);
 
 			//SendMessageInputText = "";
 		}

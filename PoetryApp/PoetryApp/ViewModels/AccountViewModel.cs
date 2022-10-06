@@ -15,9 +15,15 @@ namespace PoetryApp.ViewModels
 	{
 		private string _username;
 		public string UserName { get => _username; set { _username = value; NotifyPropertyChanged(); } }
+		private int _total_score;
+		public int TotalScore { get => _total_score; set { _total_score = value; NotifyPropertyChanged(); } }
+		private int _gamescount;
+		public int GamesCount { get => _gamescount; set { _gamescount = value; NotifyPropertyChanged(); } }
+
 
 		private bool _logged;
 		public bool LoggedOut { get => _logged; set { _logged = value; NotifyPropertyChanged(); } }
+		public bool LoggedIn { get => !_logged; set { _logged = !value; NotifyPropertyChanged(); } }
 
 		private bool _isrefreshing;
 		public bool IsRefreshing { get => _isrefreshing; set { _isrefreshing = value; NotifyPropertyChanged(); } }
@@ -38,7 +44,10 @@ namespace PoetryApp.ViewModels
 			LoggedOut = Account.user == null;
 			if (!LoggedOut)
 			{
+				LoggedIn = true;
 				UserName = Account.user.Name;
+				TotalScore = Account.user.TotalScore;
+				GamesCount = Account.user.GamesCount;
 			}
 		}
 

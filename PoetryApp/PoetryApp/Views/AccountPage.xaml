@@ -13,9 +13,30 @@
 			<ScrollView>
 				<StackLayout>
 					<Label Text="{Binding UserName}"
-					   HorizontalOptions="CenterAndExpand"
-					   FontSize="Header"
-				/>
+						HorizontalOptions="CenterAndExpand"
+						FontSize="Header"
+						IsVisible="{Binding LoggedIn}"
+					/>
+					<Label Text="Рекорд:"
+						HorizontalOptions="CenterAndExpand"
+						FontSize="Header"
+						IsVisible="{Binding LoggedIn}"
+					/>
+					<Label Text="{Binding TotalScore}"
+						HorizontalOptions="CenterAndExpand"
+						FontSize="Header"
+						IsVisible="{Binding LoggedIn}"
+					/>
+					<Label Text="Всего игр:"
+						HorizontalOptions="CenterAndExpand"
+						FontSize="Header"
+						IsVisible="{Binding LoggedIn}"
+					/>
+					<Label Text="{Binding GamesCount}"
+						HorizontalOptions="CenterAndExpand"
+						FontSize="Header"
+						IsVisible="{Binding LoggedIn}"
+					/>
 
 					<Button Text="Войти" FontSize="Large" HorizontalOptions="Center" Padding="60,0,60,0"
 						IsVisible="{Binding LoggedOut}" Command="{Binding LoginCommand}"		

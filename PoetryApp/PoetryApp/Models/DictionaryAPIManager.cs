@@ -18,18 +18,24 @@ namespace PoetryApp.Models
 			request.Method = "GET";
 			request.ContentType = "application/json; charset=utf-8";
 
-			try
+			while (true)
 			{
-				using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
-				using (Stream stream = response.GetResponseStream())
-				using (StreamReader reader = new StreamReader(stream))
+				try
 				{
-					return await reader.ReadToEndAsync();
+					using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+					using (Stream stream = response.GetResponseStream())
+					using (StreamReader reader = new StreamReader(stream))
+					{
+						string data = await reader.ReadToEndAsync();
+						if (data[0] != '{' && data != "None")
+							continue;
+						return data;
+					}
 				}
-			}
-			catch
-			{
-				return "None";
+				catch
+				{
+					return "None";
+				}
 			}
 		}
 
