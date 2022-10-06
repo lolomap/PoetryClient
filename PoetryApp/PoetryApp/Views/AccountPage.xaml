@@ -6,20 +6,24 @@
 			 Title="{Binding Title}"
 			 >
 	<ContentPage.BindingContext>
-		<viewmodels:AccountViewModel />
+		<viewmodels:AccountViewModel/>
 	</ContentPage.BindingContext>
 	<ContentPage.Content>
 		<RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
 			<ScrollView>
 				<StackLayout>
-					<Label Text="{Binding UserName}"
-					   HorizontalOptions="CenterAndExpand"
-					   FontSize="Header"
-				/>
-
-					<Button Text="Войти" FontSize="Large" HorizontalOptions="Center" Padding="60,0,60,0"
+					<Label
+						Text="{Binding UserName}"
+						HorizontalOptions="CenterAndExpand"
+						FontSize="Header"
+					/>
+					<Button Text="Войти" 
+						FontSize="Large" 
+						HorizontalOptions="Center" 
+						VerticalOptions="Center"
+						Padding="60,0,60,0"
 						IsVisible="{Binding LoggedOut}" Command="{Binding LoginCommand}"		
-				/>
+					/>
 				</StackLayout>
 			</ScrollView>
 		</RefreshView>

@@ -16,6 +16,15 @@ namespace PoetryApp.ViewModels
 		private string _username;
 		public string UserName { get => _username; set { _username = value; NotifyPropertyChanged(); } }
 
+		private int _id;
+		public int Id { get => _id; set { _id = value; NotifyPropertyChanged(); } }
+
+		private int _totalscore;
+		public int TotalScore { get => _totalscore; set { _totalscore = value; NotifyPropertyChanged(); } }
+
+		private int _gamescount;
+		public int GamesCount { get => _gamescount; set { _gamescount = value; NotifyPropertyChanged(); } }
+
 		private bool _logged;
 		public bool LoggedOut { get => _logged; set { _logged = value; NotifyPropertyChanged(); } }
 
@@ -26,7 +35,6 @@ namespace PoetryApp.ViewModels
 		public AccountViewModel()
 		{
 			Title = "Профиль";
-
 			Render();
 
 			LoginCommand = new Command(async () => await OnLogin());
@@ -39,6 +47,9 @@ namespace PoetryApp.ViewModels
 			if (!LoggedOut)
 			{
 				UserName = Account.user.Name;
+				Id = Account.user.Id;
+				TotalScore = Account.user.TotalScore;
+				GamesCount = Account.user.GamesCount;
 			}
 		}
 
