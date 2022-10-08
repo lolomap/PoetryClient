@@ -26,7 +26,7 @@ namespace PoetryApp.ViewModels
 		public bool LoggedIn { get => !_logged; set { _logged = !value; NotifyPropertyChanged(); } }
 		private bool _isrefreshing;
 		public bool IsRefreshing { get => _isrefreshing; set { _isrefreshing = value; NotifyPropertyChanged(); } }
-
+		
 
 		public AccountViewModel()
 		{

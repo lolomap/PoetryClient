@@ -27,6 +27,10 @@ namespace PoetryApp.ViewModels
 		public double TotalScore { get => _totalscore; set { _totalscore = value; NotifyPropertyChanged(); } }
 		private double _totalscore = 0;
 
+		/*public bool MainPageWindowVisibility { get => _mainpagewindowvisibility; set { _mainpagewindowvisibility = value; NotifyPropertyChanged(); } }
+		private bool _mainpagewindowvisibility = false;*/
+
+
 		PoemAnalyzer analyzer;
 
 
@@ -46,8 +50,10 @@ namespace PoetryApp.ViewModels
 			ShowHintWindowCommand = new Command(OnShowHintWindow);
 			HideHintWindowCommand = new Command(OnHideHintWindow);
 			ShowResultsWindowCommand = new Command(OnShowResultsWindow);
-			HideResultsWindowCommand = new Command(OnHideResultsWindow);
+			//HideResultsWindowCommand = new Command(OnHideResultsWindow);
 			SharePoemCommand = new Command(async () => await OnSharePoem());
+			BackButtonPressed = new Command(async () => await OnBackButtonPressed());
+			//BackButtonNotPressed = new Command(async () => await OnBackButtonNotPressed());
 
 			analyzer = new PoemAnalyzer();
 
@@ -63,9 +69,11 @@ namespace PoetryApp.ViewModels
 		public ICommand SendMessageCommand { get; }
 		public ICommand ShowHintWindowCommand { get; }
 		public ICommand HideHintWindowCommand { get; }
-		public ICommand HideResultsWindowCommand { get; }
+		//public ICommand HideResultsWindowCommand { get; }
 		public ICommand ShowResultsWindowCommand { get; }
 		public ICommand SharePoemCommand { get; }
+		public ICommand BackButtonPressed { get; }
+		//public ICommand BackButtonNotPressed { get; }
 
 		private void OnShowHintWindow()
 		{
@@ -79,10 +87,25 @@ namespace PoetryApp.ViewModels
 		{
 			ResultsWindowVisibility = true;
 		}
-		private void OnHideResultsWindow()
+		/*private void OnHideResultsWindow()
 		{
 			ResultsWindowVisibility = false;
+		}*/
+
+		/*private void OnBackButtonPressed()
+		{
+			MainPageWindowVisibility = true;
 		}
+		private void OnBackButtonNotPressed() 
+		{
+			MainPageWindowVisibility = false;
+		}*/
+
+		private async Task OnBackButtonPressed()
+		{
+			await Application.Current.MainPage.Navigation.PopAsync();
+		}
+
 
 		private async Task OnSharePoem()
 		{

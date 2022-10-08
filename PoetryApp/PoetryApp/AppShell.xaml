@@ -5,7 +5,7 @@
        Title="PoetryApp"
        x:Class="PoetryApp.AppShell"
 	   
-	   FlyoutBackgroundColor="Black"
+	   FlyoutBackgroundColor="#FFFFFF"
 	   
 	   >
 
@@ -21,7 +21,7 @@
                 <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="Shell.ForegroundColor" Value="White" />
                 <Setter Property="Shell.TitleColor" Value="White" />
-                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+				<Setter Property="Shell.DisabledColor" Value="#95FFFFFF" />
                 <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
                 <Setter Property="Shell.TabBarBackgroundColor" Value="#7995cc" />
                 <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
@@ -67,7 +67,7 @@
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{StaticResource Primary}"/>
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
@@ -85,9 +85,6 @@
 	
     <FlyoutItem Title="Main" Icon="icon_about.png">
         <ShellContent Route="MainPage" ContentTemplate="{DataTemplate local:MainPage}" />
-    </FlyoutItem>
-    <FlyoutItem Title="Browse" Icon="icon_feed.png">
-        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
     </FlyoutItem>
 	<FlyoutItem Title="Профиль" Icon="icon_feed.png">
 		<ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:AccountPage}" />

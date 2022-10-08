@@ -37,7 +37,17 @@
 						FontSize="Default"
 						IsVisible="{Binding LoggedIn}"
 					/>
-					<Button Text="Войти" FontSize="Large" HorizontalOptions="Center" Padding="60,0,60,0"
+					<Label Text="ID:"
+						HorizontalOptions="CenterAndExpand"
+						FontSize="Body"
+						IsVisible="{Binding LoggedIn}"
+					/>
+					<Label Text="{Binding Id}"
+						HorizontalOptions="CenterAndExpand"
+						FontSize="Default"
+						IsVisible="{Binding LoggedIn}"
+					/>
+					<Button Text="Войти" FontSize="Large" HorizontalOptions="Center" Margin="50" Padding="60,0,60,0"
 						IsVisible="{Binding LoggedOut}" Command="{Binding LoginCommand}"		
 					/>
 				</StackLayout>

@@ -7,7 +7,7 @@
 			 Title="{Binding Title}"
 			 BackgroundImageSource="Null">
 	<ContentPage.BindingContext>
-		<vm:PlayBotViewModel />
+		<vm:PlayBotViewModel/>
 	</ContentPage.BindingContext>
 
 	<ContentPage.Content>
@@ -202,7 +202,7 @@
 								<StackLayout Orientation="Horizontal">
 									<Button HorizontalOptions="Center" Text="✓"
 											CornerRadius="25" HeightRequest="70" WidthRequest="70"
-										Command="{Binding HideResultsWindowCommand}"
+											Command="{Binding BackButtonPressed}"
 									/>
 									<Button HorizontalOptions="Center" Text="Share" CornerRadius="25" Command="{Binding SharePoemCommand}"
 									/>
