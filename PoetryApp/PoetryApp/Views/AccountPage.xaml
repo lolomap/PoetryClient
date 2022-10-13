@@ -4,6 +4,7 @@
 			 xmlns:viewmodels="clr-namespace:PoetryApp.ViewModels"
 			 x:Class="PoetryApp.Views.AccountPage"
 			 Title="{Binding Title}"
+			 BackgroundColor="#D1E1FF"
 			 >
 	<ContentPage.BindingContext>
 		<viewmodels:AccountViewModel/>
@@ -47,7 +48,13 @@
 						FontSize="Default"
 						IsVisible="{Binding LoggedIn}"
 					/>
-					<Button Text="Войти" FontSize="Large" HorizontalOptions="Center" Margin="50" Padding="60,0,60,0"
+					<Button FontSize="20"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand"
+                Text="Войти"
+				CornerRadius="5"
+				WidthRequest="250"
+				HeightRequest="70"
 						IsVisible="{Binding LoggedOut}" Command="{Binding LoginCommand}"		
 					/>
 				</StackLayout>
