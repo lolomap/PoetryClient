@@ -6,7 +6,7 @@
              mc:Ignorable="d"
 			 xmlns:viewmodels="clr-namespace:PoetryApp.ViewModels"
              x:Class="PoetryApp.Views.LoginPage"
-			 BackgroundImageSource="Null"
+			 BackgroundColor="#D1E1FF"
              Shell.NavBarIsVisible="False">
 	<ContentPage.BindingContext>
 		<viewmodels:LoginViewModel />
@@ -15,7 +15,7 @@
         <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
 			<Label VerticalOptions="Center" Text="Логин:" FontSize="Large" TextColor="Black"
 				   HorizontalOptions="Center"/>
-			<Frame>
+			<Frame BackgroundColor="#D1E1FF">
 				<Entry
 					HorizontalOptions="FillAndExpand"
 					Text="{Binding Username}"
@@ -26,7 +26,7 @@
 
 			<Label VerticalOptions="Center" Text="Пароль:" FontSize="Large" TextColor="Black"
 				   HorizontalOptions="Center"/>
-			<Frame>
+			<Frame BackgroundColor="#D1E1FF">
 				<Entry
 					HorizontalOptions="FillAndExpand"
 					Text="{Binding Password}"

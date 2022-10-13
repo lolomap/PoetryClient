@@ -4,24 +4,24 @@
 			 x:Class="PoetryApp.Views.PlayBotPage"
 			 xmlns:vm="clr-namespace:PoetryApp.ViewModels"
 			 xmlns:model="clr-namespace:PoetryApp.Models"
-			 Title="{Binding Title}"
-			 BackgroundImageSource="Null">
+			 Title = "{Binding Title}"
+			 BackgroundColor="#D1E1FF">
 	<ContentPage.BindingContext>
-		<vm:PlayBotViewModel/>
+		<vm:PlayBotViewModel />
 	</ContentPage.BindingContext>
 
 	<ContentPage.Content>
 		<Grid>
 			<StackLayout Padding="45,10,45,75">
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
-					<Button Text="Подсказка" HorizontalOptions="Center" CornerRadius="15"
-						FontSize="Large"
+					<Button Text="Подсказка" HorizontalOptions="Center" CornerRadius="9"
+						FontSize="20"
 						Command="{Binding ShowHintWindowCommand}"
 					/>
-					
+
 				</StackLayout>
 
-				<Frame CornerRadius="20" BackgroundColor="#acdcff">
+				<Frame CornerRadius="9" BackgroundColor="#9FC6FF">
 					<CollectionView x:Name="MessagesList"
 				ItemsSource="{Binding Messages}"
 				SelectionMode="None"
@@ -30,19 +30,19 @@
 							<DataTemplate>
 								<Grid x:DataType="model:Message">
 									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="2*" />
+										<ColumnDefinition Width="1*" />
 									</Grid.ColumnDefinitions>
-									<Frame Grid.Column="{Binding column}" BackgroundColor="#d6edff"
-									   Padding="0" CornerRadius="10" HasShadow="False">
+									<Frame Grid.Column="{Binding column}" BackgroundColor="#D1E1FF"
+									   Padding="1" CornerRadius="9" HasShadow="False">
 										<StackLayout Padding="5">
 											<Label Text="{Binding FromName}" HorizontalOptions="{Binding HorizontalOptions}"
 											LineBreakMode="NoWrap" TextColor="Black"
 											FontSize="16" />
 											<Label Text="{Binding Text}"  HorizontalOptions="{Binding HorizontalOptions}" TextColor="Black"
-											FontSize="13" />
+											FontSize="12" />
 											<Label x:Name="MessageScoreText" Text="{Binding ScoreText}" HorizontalOptions="{Binding HorizontalOptions}"
-											LineBreakMode="NoWrap" FontSize="13" TextColor="{Binding ScoreColor}"
+											LineBreakMode="NoWrap" FontSize="10" TextColor="{Binding ScoreColor}"
 											IsVisible="{Binding isPlayer}"/>
 										</StackLayout>
 									</Frame>
@@ -53,12 +53,12 @@
 				</Frame>
 
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-					<Label Text="Пишите рифму" FontSize="Subtitle" Padding="25,0,0,0" LineBreakMode="NoWrap"
+					<Label Text="Пишите рифму" FontSize="16" Padding="25,0,0,0" LineBreakMode="NoWrap"
 				   TextColor="Black" VerticalTextAlignment="End"
 				/>
 
-					<AbsoluteLayout HeightRequest="60" VerticalOptions="End" Padding="0,0,0,0">
-						<Path Fill="Black" Stroke="Black" Aspect="Fill" HeightRequest="90" WidthRequest="127" Scale="0.35" Rotation="180" RotationY="180"
+					<AbsoluteLayout HeightRequest="60" VerticalOptions="End" Padding="-25,0,-75,0">
+						<Path Fill="Black" Stroke="Black" Aspect="Fill" HeightRequest="90" WidthRequest="120" Scale="0.35" Rotation="180" RotationY="180"
 						Data="M649 596 c-154 -43 -339 -203 -490 -425 -29 -42 -64 -89 -78 -105
 						l-26 -30 30 19 c16 10 53 37 81 60 94 77 298 137 659 195 97 15 123 23 138 41
 						44 54 34 124 -27 183 -71 68 -179 91 -287 62z m135 -15 c3 -5 -8 -14 -24 -21
@@ -88,7 +88,7 @@
 					</AbsoluteLayout>
 				</StackLayout>
 
-				<Frame CornerRadius="20" BackgroundColor="#acdcff" HeightRequest="50">
+				<Frame CornerRadius="9" BackgroundColor="#9FC6FF" HeightRequest="45">
 					<StackLayout Orientation="Horizontal">
 						<Entry
 							HorizontalOptions="FillAndExpand"
@@ -96,36 +96,36 @@
 							ReturnCommand="{Binding SendMessageCommand, Mode=TwoWay}"
 							ClearButtonVisibility="WhileEditing"
 						/>
-						<Button Text="→" FontSize="Title"
-							Command="{Binding SendMessageCommand}" CornerRadius="15" HorizontalOptions="Center"
+						<Button Text="→" FontSize="50" Padding="-12,-36,-12,-12"
+							Command="{Binding SendMessageCommand}" CornerRadius="13" HorizontalOptions="Center" VerticalOptions="Center"
 						/>
 					</StackLayout>
 				</Frame>
 
-				<Button Text="Завершить игру" HorizontalOptions="Center" CornerRadius="15"
+				<Button Text="Завершить игру" HorizontalOptions="Center" CornerRadius="9" Padding="10,-10,10,-10"
 					Command="{Binding ShowResultsWindowCommand}"
-					FontSize="Large"
+					FontSize="20"
 				/>
 
 			</StackLayout>
 
 			<Grid IsVisible="{Binding HintWindowVisibility}">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="0.2*" />
+					<RowDefinition Height="0.172*" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="3*" />
+					<RowDefinition Height="1*" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="0.15*" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="0.15*" />
+					<ColumnDefinition Width="0.1*" />
+					<ColumnDefinition Width="320" />
+					<ColumnDefinition Width="0.1*" />
 				</Grid.ColumnDefinitions>
 
-				<Frame Grid.Row="1" Grid.Column="1" CornerRadius="30" Padding="0"
+				<Frame Grid.Row="1" Grid.Column="1" CornerRadius="9" Padding="0"
 					   BackgroundColor="Transparent">
 					<Grid>
-						<Grid BackgroundColor="#4875cd" Opacity="0.9"></Grid>
-						
+						<Grid BackgroundColor="#4875CD"></Grid>
+
 						<Grid>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*"/>
@@ -140,22 +140,22 @@
 								<RowDefinition Height="*" />
 							</Grid.RowDefinitions>
 
-							<Grid Padding="15"/>
+							<Grid Padding="3"/>
 
-							<Grid Padding="5"  Grid.Row="1" Grid.Column="1">
-								<Label Text="Подходящая рифма:" FontSize="40" TextColor="White"
+							<Grid Padding="-2"  Grid.Row="1" Grid.Column="1">
+								<Label Text="Подходящая рифма:" FontSize="20" TextColor="White"
 								   HorizontalOptions="Center"/>
 							</Grid>
 
-							<Grid Padding="5"  Grid.Row="2" Grid.Column="1">
-								<Frame HorizontalOptions="Center" BackgroundColor="#7995cc" WidthRequest="250" Padding="10">
-									<Label Text="СЛОВО" FontSize="Title" TextColor="Black" HorizontalOptions="Center" />
+							<Grid Padding="10,30,10,10"  Grid.Row="2" Grid.Column="1">
+								<Frame HorizontalOptions="Center" BackgroundColor="#D1E1FF" WidthRequest="250" Padding="5" CornerRadius="5">
+									<Label Text="" FontSize="Title" TextColor="Black" HorizontalOptions="Center" />
 								</Frame>
 							</Grid>
 
-							<Grid Padding="10"  Grid.Row="3" Grid.Column="1">
-								<Button HorizontalOptions="Center" Text="✓" Padding="15,0,10,0" TextColor="Black"
-									FontSize="45" CornerRadius="45" HeightRequest="70" WidthRequest="70" BackgroundColor="#54cf09"
+							<Grid Padding="-15"  Grid.Row="3" Grid.Column="1">
+								<Button HorizontalOptions="Center" Text="ОК" Padding="0,0,0,0" TextColor="White"
+									FontSize="20" HeightRequest="70" WidthRequest="70" BackgroundColor="#4875CD"
 									Command="{Binding HideHintWindowCommand}"
 								/>
 							</Grid>
@@ -166,20 +166,20 @@
 
 			<Grid IsVisible="{Binding ResultsWindowVisibility}">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="0.2*" />
+					<RowDefinition Height="0.172*" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="3*" />
+					<RowDefinition Height="1*" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="0.15*" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="0.15*" />
+					<ColumnDefinition Width="0.1*" />
+					<ColumnDefinition Width="320" />
+					<ColumnDefinition Width="0.1*" />
 				</Grid.ColumnDefinitions>
 
-				<Frame Grid.Row="1" Grid.Column="1" CornerRadius="30" Padding="0"
+				<Frame Grid.Row="1" Grid.Column="1" CornerRadius="9" Padding="0,-20,0,-20"
 					   BackgroundColor="Transparent">
 					<Grid>
-						<Grid BackgroundColor="#acdcff" Opacity="0.9"></Grid>
+						<Grid BackgroundColor="#4875CD" Opacity="1"></Grid>
 
 						<Grid>
 							<Grid.RowDefinitions>
@@ -189,22 +189,28 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="*" />
 							</Grid.RowDefinitions>
-							
-							<Grid Grid.Row="1" Padding="10">
-								<Label Text="{Binding MessagesText}" TextColor="Black" FontSize="Medium" />
+
+							<Grid Grid.Row="1" Padding="0,21,0,0">
+								<Label Text="Игра окончена" TextColor="White" FontSize="20" HorizontalOptions="Center"/>
+							</Grid>
+							<Grid Grid.Row="1" Padding="10,56,0,0">
+								<Label Text="Ваше стихотворение:" TextColor="White" FontSize="20" />
+							</Grid>
+							<Grid Grid.Row="1" Padding="10,80,10,10">
+								<Label Text="{Binding MessagesText}" TextColor="White" FontSize="16" />
 							</Grid>
 
-							<Grid Grid.Row="2" Padding="10">
-								<Label Text="{Binding TotalScoreText}" TextColor="Black" FontSize="Medium" />
+							<Grid Grid.Row="2" Padding="10,-15,1,1">
+								<Label Text="{Binding TotalScoreText}" TextColor="White" FontSize="16" />
 							</Grid>
 
-							<Grid Grid.Row="3" Padding="10">
+							<Grid Grid.Row="3" Padding="10,1,1,1">
 								<StackLayout Orientation="Horizontal">
-									<Button HorizontalOptions="Center" Text="✓"
-											CornerRadius="25" HeightRequest="70" WidthRequest="70"
-											Command="{Binding BackButtonPressed}"
+									<Button HorizontalOptions="Center" Text="ОК"
+											CornerRadius="5" HeightRequest="70" WidthRequest="170"
+										Command="{Binding HideResultsWindowCommand}"
 									/>
-									<Button HorizontalOptions="Center" Text="Share" CornerRadius="25" Command="{Binding SharePoemCommand}"
+									<Button HorizontalOptions="Center" Text="Share" CornerRadius="5" Command="{Binding SharePoemCommand}"
 									/>
 								</StackLayout>
 							</Grid>
