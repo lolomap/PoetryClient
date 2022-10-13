@@ -53,7 +53,7 @@
 				</Frame>
 
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-					<Label Text="Пишите рифму" FontSize="16" Padding="25,0,0,0" LineBreakMode="NoWrap"
+					<Label Text="Пишите рифму" FontSize="16" Padding="0,0,0,0" LineBreakMode="NoWrap"
 				   TextColor="Black" VerticalTextAlignment="End"
 				/>
 
