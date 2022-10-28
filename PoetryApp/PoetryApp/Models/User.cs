@@ -6,6 +6,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace PoetryApp.Models
 {
@@ -20,7 +21,57 @@ namespace PoetryApp.Models
 
 		//public static User user { get; set; } = new User() { Name = "aboba", Id = 123, GamesCount = 69, TotalScore = 228 };
 
-		public static async Task<int> Login(string username, string password)
+		public static async Task SaveScore(int score, string username, string password)
+		{
+			if (user == null)
+				return;
+
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://62.113.110.236/api/SaveScore/");
+			//request.ServerCertificateValidationCallback = delegate { return true; };
+			request.Method = "POST";
+			//request.UserAgent = "Chrome";
+			request.ContentType = "application/json; charset=utf-8";
+
+			string payload = "{\"username\": \"" + username + "\", \"password\": \"" + password + "\", \"score\": " + score.ToString() + "}";
+
+			using (StreamWriter streamWriter = new StreamWriter(request.GetRequestStream()))
+			{
+				streamWriter.Write(Encoding.UTF8.GetString(Encoding.Default.GetBytes(payload)));
+			}
+
+			int i = 0;
+			while (i < 100)
+			{
+				try
+				{
+
+					using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+					using (Stream stream = response.GetResponseStream())
+					using (StreamReader reader = new StreamReader(stream))
+					{
+						string res = await reader.ReadToEndAsync();
+						//Dictionary<string, object> json = JsonConvert.DeserializeObject<Dictionary<string, object>>(res);
+
+						//if ((string)json["success"] == "true")
+						//{
+						//	object user_data = json["user"];
+						//	user = DeserializeUser(user_data.ToString());
+						//	Password = password;
+						//	Username = username;
+						//	Application.Current.Properties["username"] = username;
+						//	Application.Current.Properties["password"] = password;
+						//}
+					}
+				}
+				catch
+				{
+					i++;
+					continue;
+				}
+			}
+		}
+
+		public static async Task<int> Login(string username, string password, bool isHashed=false)
 		{
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://62.113.110.236/api/Login/");
 			//request.ServerCertificateValidationCallback = delegate { return true; };
@@ -28,7 +79,9 @@ namespace PoetryApp.Models
 			//request.UserAgent = "Chrome";
 			request.ContentType = "application/json; charset=utf-8";
 
-			password = HashPassword(password, username);
+			if (!isHashed)
+				password = HashPassword(password, username);
+
 			string payload = "{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}";
 
 			using (StreamWriter streamWriter = new StreamWriter(request.GetRequestStream()))
@@ -55,6 +108,8 @@ namespace PoetryApp.Models
 							user = DeserializeUser(user_data.ToString());
 							Password = password;
 							Username = username;
+							Application.Current.Properties["username"] = username;
+							Application.Current.Properties["password"] = password;
 						}
 						else
 						{

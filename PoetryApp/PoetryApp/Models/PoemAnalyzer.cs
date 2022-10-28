@@ -470,9 +470,9 @@ namespace PoetryApp.Models
 				//score += IsSameLength(length1, length2) ? 1 : -1;
 				score += IsExoticWord(w1) ? 1 : 0;
 			}
-			else return new Tuple<double, Word>(-2, w2);
+			else return new Tuple<double, Word>(-2, w1);
 
-			return new Tuple<double, Word>(score, w2);
+			return new Tuple<double, Word>(score, w1);
 		}
 	}
 }

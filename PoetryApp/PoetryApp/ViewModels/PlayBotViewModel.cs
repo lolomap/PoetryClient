@@ -103,6 +103,17 @@ namespace PoetryApp.ViewModels
 
 		private async Task OnBackButtonPressed()
 		{
+			if (Account.user == null)
+			{
+				await Application.Current.MainPage.Navigation.PopAsync();
+				return;
+			}
+			int s = (int)TotalScore;
+			if (s < Account.user.TotalScore)
+			{
+				s = Account.user.TotalScore;
+			}
+			await Account.SaveScore(s, Account.Username, Account.Password);
 			await Application.Current.MainPage.Navigation.PopAsync();
 		}
 

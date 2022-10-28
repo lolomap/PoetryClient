@@ -202,7 +202,11 @@
 								<Label Text="{Binding MessagesText}" TextColor="White" FontSize="16" />
 							</Grid>
 							<Grid Grid.Row="2" Padding="10,-15,1,1">
-								<Label Text="{Binding TotalScoreText}" TextColor="White" FontSize="16" />
+								<StackLayout>
+									<Label Text="Счёт: " TextColor="White" FontSize="16" />
+									<Label Text="{Binding TotalScore}" TextColor="White" FontSize="16" />
+								</StackLayout>
+								
 							</Grid>
 
 							<Grid Grid.Row="3" Padding="10,1,1,1">

@@ -1,4 +1,5 @@
-﻿using PoetryApp.Services;
+﻿using PoetryApp.Models;
+using PoetryApp.Services;
 using PoetryApp.Views;
 using System;
 using Xamarin.Forms;
@@ -19,6 +20,10 @@ namespace PoetryApp
 
         protected override void OnStart()
         {
+			if (Application.Current.Properties.ContainsKey("username") && Application.Current.Properties.ContainsKey("password"))
+			{
+				Account.Login(Application.Current.Properties["username"] as string, Application.Current.Properties["password"] as string, true);
+			}
         }
 
         protected override void OnSleep()
